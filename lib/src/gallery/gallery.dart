@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../appbar_etc.dart';
 
-class SamplePage extends StatelessWidget {
+class GalleryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

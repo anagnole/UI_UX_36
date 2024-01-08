@@ -56,7 +56,7 @@ class _NavigationExampleState extends State<NavigationExample> {
       ),
       body: <Widget>[
         /// Home page
-        SamplePage(),
+        GalleryPage(),
 
         /// Notifications page
         const Padding(
