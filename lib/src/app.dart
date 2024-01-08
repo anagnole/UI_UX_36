@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'home/home.dart';
+import 'gallery/gallery.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
@@ -56,7 +56,7 @@ class _NavigationExampleState extends State<NavigationExample> {
       ),
       body: <Widget>[
         /// Home page
-        HomePage(),
+        SamplePage(),
 
         /// Notifications page
         const Padding(

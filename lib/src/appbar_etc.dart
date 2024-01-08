@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/src/profile/profile.dart';
+
 
 const primaryColor= Color(0xFF33228E);
 
@@ -38,7 +40,12 @@ class SnapGoalsAppBar extends StatelessWidget implements PreferredSizeWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: screenWidth * iconPaddingPercentage),
           child: IconButton(
-            onPressed: (){}, //να προσθεσουμε 
+            onPressed: (){
+            // Navigate to the SecondPage when IconButton is pressed
+              Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );}, 
             icon: Image.asset("assets/images/avatar icon.png"),
           ),
         ),
