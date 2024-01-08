@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/src/appbar_etc.dart';
 import 'gallery/gallery.dart';
 
 class MainApp extends StatelessWidget {
@@ -27,34 +28,38 @@ class _NavigationExampleState extends State<NavigationExample> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
+      appBar: SnapGoalsAppBar(),
+      
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: Colors.amber,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            selectedIcon: Icon(Icons.home),
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Badge(child: Icon(Icons.notifications_sharp)),
-            label: 'Notifications',
-          ),
-          NavigationDestination(
-            icon: Badge(
-              label: Text('2'),
-              child: Icon(Icons.messenger_sharp),
+          height: 75,
+          indicatorColor: Colors.transparent,
+          backgroundColor: primaryColor,
+          onDestinationSelected: (int index) {
+            setState(() {
+              currentPageIndex = index;
+            });
+          },
+          selectedIndex: currentPageIndex,
+          destinations:  <Widget>[
+            NavigationDestination(
+              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/Gallery icon selected.png')),
+              icon: Image.asset('assets/images/Gallery icon.png'),
+              label: 'Gallery',
             ),
-            label: 'Messages',
-          ),
-        ],
-      ),
-      body: <Widget>[
+            NavigationDestination(
+              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/selected home icon.png')),
+              icon: Image.asset('assets/images/home icon.png'),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/selected goal icon.png')),
+              icon: Image.asset('assets/images/Goals icon.png'),
+              label: 'Goals',
+            ),
+          ],
+        ),
+      
+      body: <Widget>  [
         /// Home page
         GalleryPage(),
 
