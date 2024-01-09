@@ -5,16 +5,44 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SnapGoalsAppBar2(),
+      appBar: const SnapGoalsAppBar2(),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/background.png'), // Replace with your image path
             fit: BoxFit.fill, // Adjust the image fit as needed
           ),
-
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: const [
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  'Name',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter your name',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
+              // Add more widgets here as needed
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
