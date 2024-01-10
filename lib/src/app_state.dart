@@ -9,4 +9,8 @@ class AppState extends ChangeNotifier {
   void fetchTasks() {
     futureTasks = snapgoalsDB.fetchAll();
   }
+
+  void notify() {
+    notifyListeners();
+  }
 }

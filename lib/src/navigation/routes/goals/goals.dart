@@ -42,6 +42,7 @@ class GoalsPage extends StatelessWidget {
                             onPressed: () async {
                               await appState.snapgoalsDB.delete(task.id);
                               appState.fetchTasks();
+                              appState.notify();
                             },
                             icon: const Icon(Icons.delete, color: Colors.red),
                           ),
@@ -53,6 +54,7 @@ class GoalsPage extends StatelessWidget {
                                   await appState.snapgoalsDB
                                       .update(id: task.id, title: title);
                                   appState.fetchTasks();
+                                  appState.notify();
                                   //if (!mounted) return;
                                   Navigator.of(context).pop();
                                 },
@@ -77,6 +79,7 @@ class GoalsPage extends StatelessWidget {
                 await appState.snapgoalsDB.create(title: title);
                 //if (!mounted) return;
                 appState.fetchTasks();
+                appState.notify();
                 Navigator.of(context).pop();
               }),
             );

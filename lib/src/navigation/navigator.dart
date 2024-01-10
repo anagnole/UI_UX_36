@@ -89,10 +89,10 @@ class _MyNavigatorState extends State<MyNavigator> {
     Widget page = const HomePage();
     switch (currentPageIndex) {
       case 0:
-        page = const HomePage();
+        page = const GalleryPage();
         break;
       case 1:
-        page = const GalleryPage();
+        page = const HomePage();
         break;
       case 2:
         page = const GoalsPage();
@@ -143,8 +143,39 @@ class _MyNavigatorState extends State<MyNavigator> {
           ],
         ),
       ),
-      body: Container(
-        child: page,
+      body: GestureDetector(onHorizontalDragEnd: (DragEndDetails details) {
+          if (details.primaryVelocity! > 0) {
+            // Swiping right
+            switch (currentPageIndex){
+              case 0: 
+                stateHandler(2, false);
+                break;
+              case 1:
+                stateHandler(0, false);
+                break;
+              case 2:
+                stateHandler(1, false);
+                break;
+                }
+          } else if (details.primaryVelocity! < 0) {
+            // Swiping left
+                        switch (currentPageIndex){
+              case 0: 
+                stateHandler(1, true);
+                break;
+              case 1:
+                stateHandler(2, true);
+                break;
+              case 2:
+                stateHandler(0, true);
+                break;
+                }
+            
+          }
+        },
+        child: Container(
+          child: page,
+        ),
       ),
     );
   }
