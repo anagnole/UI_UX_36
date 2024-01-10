@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/home/home.dart';
-import 'package:snapgoals_v2/src/profile/profile.dart';
 
 
 const primaryColor= Color(0xFF33228E);
@@ -8,20 +7,20 @@ const primaryColor= Color(0xFF33228E);
 class SnapGoalsAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   
 
-  const SnapGoalsAppBar2();
+  const SnapGoalsAppBar2({super.key});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
   
   // Calculate spacing as a percentage of screen width
-    final titleSpacingPercentage = 0.1; 
-    final iconPaddingPercentage = 0.05; 
+    const titleSpacingPercentage = 0.1; 
+    const iconPaddingPercentage = 0.05; 
 
 
     return AppBar(
       backgroundColor: primaryColor, // Replace with your specific color
-      title: Text(
+      title: const Text(
         "SnapGoals",
         style: TextStyle(
           color: Colors.white, 
@@ -44,7 +43,7 @@ class SnapGoalsAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             onPressed: (){
               Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );}, 
             icon: Image.asset("assets/images/close_24px.png"),
           ),
@@ -54,5 +53,5 @@ class SnapGoalsAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

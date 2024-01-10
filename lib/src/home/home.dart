@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget{
-  HomePage();
+  const HomePage({super.key});
 
  @override
   _HomePageState createState() => _HomePageState();

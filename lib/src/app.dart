@@ -28,7 +28,7 @@ class _NavigationExampleState extends State<NavigationExample> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-      appBar: SnapGoalsAppBar(),
+      appBar: const SnapGoalsAppBar(),
       
       bottomNavigationBar: NavigationBar(
           height: 75,
@@ -42,17 +42,17 @@ class _NavigationExampleState extends State<NavigationExample> {
           selectedIndex: currentPageIndex,
           destinations:  <Widget>[
             NavigationDestination(
-              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/Gallery icon selected.png')),
+              selectedIcon: SizedBox( width: 50, height: 50, child: Image.asset('assets/images/Gallery icon selected.png')),
               icon: Image.asset('assets/images/Gallery icon.png'),
               label: 'Gallery',
             ),
             NavigationDestination(
-              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/selected home icon.png')),
+              selectedIcon: SizedBox( width: 50, height: 50, child: Image.asset('assets/images/selected home icon.png')),
               icon: Image.asset('assets/images/home icon.png'),
               label: 'Home',
             ),
             NavigationDestination(
-              selectedIcon: Container( width: 50, height: 50, child: Image.asset('assets/images/selected goal icon.png')),
+              selectedIcon: SizedBox( width: 50, height: 50, child: Image.asset('assets/images/selected goal icon.png')),
               icon: Image.asset('assets/images/Goals icon.png'),
               label: 'Goals',
             ),
@@ -61,7 +61,7 @@ class _NavigationExampleState extends State<NavigationExample> {
       
       body: <Widget>  [
         /// Home page
-        GalleryPage(),
+        const GalleryPage(),
 
         /// Notifications page
         const Padding(

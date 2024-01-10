@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../appbar_withx.dart';
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,10 +15,10 @@ class ProfilePage extends StatelessWidget {
             fit: BoxFit.fill, // Adjust the image fit as needed
           ),
         ),
-        child: Center(
+        child: const Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: Text(
