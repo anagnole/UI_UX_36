@@ -13,6 +13,8 @@ dependencies:
   sqflite: ^2.0.0+3
   sqflite_common_ffi: ^2.3.2
   path_provider: ^2.1.2
+  charts_flutter: any
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
