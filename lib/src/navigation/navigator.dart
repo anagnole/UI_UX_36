@@ -95,7 +95,7 @@ class _MyNavigatorState extends State<MyNavigator> {
         page = const GalleryPage();
         break;
       case 2:
-        page = GoalsPage();
+        page = const GoalsPage();
         break;
       case 3:
         page = const ProfilePage();
