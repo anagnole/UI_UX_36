@@ -144,6 +144,7 @@ class _CreateGoal extends State<CreateGoal> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       widget.onSubmit(controller.text, 'fitness', '');
+                      Navigator.of(context).pop();
                     }
                   },
                   icon: const Icon(Icons.add),
