@@ -52,57 +52,69 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-             const Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Name',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+              const SizedBox(height: 64),
+              Container(
+                padding: const EdgeInsets.all(32.0),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B8BB1),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(8.0),
                 ),
-              ),
-              _isEditing
-                  ? Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: TextField(
-                        controller: _nameController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                        ),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              _userName,
-                              style: const TextStyle(
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Image.asset("assets/images/mode_edit_24px.png"),
-                            onPressed: _startEditing,
-                          ),
-                        ],
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Name',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
+                    const Divider(
+                      color: Colors.black,
+                      height: 8,
+                    ),
+                    _isEditing
+                        ? TextField(
+                            controller: _nameController,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: 'Enter your name',
+                              hintStyle: TextStyle(color: Colors.white),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                _userName,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              IconButton(
+                                icon: Image.asset("assets/images/mode_edit_24px.png"),
+                                onPressed: _startEditing,
+                              ),
+                            ],
+                          ),
+                  ],
+                ),
+              ),
               if (_isEditing)
                 ElevatedButton(
                   onPressed: _endEditing,
                   child: const Text('Save'),
                 ),
+              const SizedBox(height: 24),
               const StatBox(stat: "Goals Completed"),
-              const SizedBox(height: 8),
+              const SizedBox(height: 24),
               const StatBox(stat: "Goals Remaining"),
-              const SizedBox(height: 8),
+              const SizedBox(height: 24),
               const StatBox(stat: "Top Category"),
             ],
           ),

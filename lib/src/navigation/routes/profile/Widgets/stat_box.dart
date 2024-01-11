@@ -14,6 +14,7 @@ class StatBox extends Textwithbar{
         borderRadius: BorderRadius.circular(8.0), // Adjust border radius as needed
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children:[
         Text(text),
         const SizedBox(height: 8),
