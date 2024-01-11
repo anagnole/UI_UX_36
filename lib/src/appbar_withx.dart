@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:snapgoals_v2/src/navigation/routes/home/home.dart';
-import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
 
 const primaryColor = Color(0xFF33228E);
 
