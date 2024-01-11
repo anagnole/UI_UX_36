@@ -29,7 +29,6 @@ class _ModalState extends State<Modal> {
     switch (pageName) {
       case 'profile':
         page = const ProfilePage();
-
         break;
       default:
         throw UnimplementedError('no widget for $pageName');

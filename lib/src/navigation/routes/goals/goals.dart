@@ -29,6 +29,7 @@ class GoalsPage extends StatelessWidget {
                   : ListView.separated(
                       itemBuilder: (context, index) {
                         final task = tasks[index];
+                        //appState.tasks.add(task);
                         final subTitle =
                             DateTime.parse(task.updatedAt ?? task.createdAt)
                                 .toString();
@@ -43,6 +44,7 @@ class GoalsPage extends StatelessWidget {
                             onPressed: () async {
                               await appState.snapgoalsDB.delete(task.id);
                               appState.fetchTasks();
+                              //appState.tasks.remove(task);
                               appState.notify();
                             },
                             icon: const Icon(Icons.delete, color: Colors.red),

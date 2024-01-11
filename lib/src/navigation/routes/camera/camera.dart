@@ -16,14 +16,14 @@ class _CameraViewPageState extends State<CameraScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  int current_camera = 1;
+  int currentCamera = 1;
 
   @override
   void initState() {
     super.initState();
     // Initialize the camera controller
     _controller = CameraController(
-      widget.cameras[current_camera],
+      widget.cameras[currentCamera],
       ResolutionPreset.medium,
     );
 
@@ -56,9 +56,9 @@ class _CameraViewPageState extends State<CameraScreen> {
           onDoubleTap: () {
             // Handle double tap
             setState(() {
-              current_camera = (current_camera + 1) % 2;
+              currentCamera = (currentCamera + 1) % 2;
               _controller = CameraController(
-                widget.cameras[current_camera],
+                widget.cameras[currentCamera],
                 ResolutionPreset.medium,
               );
 
