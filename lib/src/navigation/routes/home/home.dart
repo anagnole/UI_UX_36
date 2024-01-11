@@ -1,82 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapgoals_v2/src/navigation/routes/home/widgets/pie_chart.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late Future<String> _name;
+
+  @override
+  void initState() {
+    super.initState();
+    _name = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('name') ?? '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
-        child: PieChartWidget(),
+      body: Column(
+        children: [
+          FutureBuilder<String>(
+            future: _name,
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return const CircularProgressIndicator();
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    return Text('Hello ${snapshot.data}!');
+                  }
+              }
+            },
+          ),
+          const PieChartWidget(),
+        ],
       ),
     );
   }
-}
-
-class PieChartWidget extends StatelessWidget {
-  const PieChartWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    List<charts.Series<ChartData, String>> seriesList = [
-      charts.Series<ChartData, String>(
-        id: 'Categories',
-        domainFn: (ChartData data, _) => data.category,
-        measureFn: (ChartData data, _) => data.value,
-        colorFn: (ChartData data, _) =>
-            charts.ColorUtil.fromDartColor(_getColorForCategory(data.category)),
-        data: [
-          ChartData('Fitness', 30),
-
-          /// ayta edo na einai analoga me ta tasks apo to database
-          ChartData('Social', 40),
-          ChartData('Study', 30),
-        ],
-      )
-    ];
-
-    var chart = charts.PieChart(
-      seriesList,
-      animate: true,
-    );
-
-    return Stack(
-      children: [
-        SizedBox(
-          height: 300,
-          width: 300,
-          child: chart,
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Image.asset(
-            'assets/images/chart_ring.png',
-            height: 300,
-            width: 300,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Color _getColorForCategory(String category) {
-    if (category == 'Fitness') {
-      return const Color(0xFFFFC7C2);
-    } else if (category == 'Social') {
-      return const Color(0xFFAFF4C6);
-    } else if (category == 'Study') {
-      return const Color(0xFFFFFCBD);
-    } else {
-      return Colors.grey;
-    }
-  }
-}
-
-class ChartData {
-  final String category;
-  final int value;
-
-  ChartData(this.category, this.value);
 }

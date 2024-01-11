@@ -6,6 +6,7 @@ class SnapgoalsDB {
   final tableName = 'tasks';
 
   Future<void> createTable(Database database) async {
+    //await database.execute("DROP TABLE $tableName;");
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
       "title" TEXT NOT NULL,

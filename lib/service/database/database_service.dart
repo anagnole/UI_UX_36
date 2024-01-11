@@ -1,4 +1,5 @@
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -27,9 +28,16 @@ class DatabaseService {
       onCreate: create,
       singleInstance: true,
     );
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('name', 'George');
+
+    //await SnapgoalsDB().createTable(database);
+
     return database;
   }
 
-  Future<void> create(Database database, int version) async =>
-      await SnapgoalsDB().createTable(database);
+  Future<void> create(Database database, int version) async {
+    await SnapgoalsDB().createTable(database);
+  }
 }
