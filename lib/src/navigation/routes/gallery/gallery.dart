@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
 import 'package:camera/camera.dart';
+import 'package:snapgoals_v2/src/navigation/routes/gallery/widgets/picture.dart';
 
 class GalleryPage extends StatelessWidget {
   const GalleryPage({super.key});

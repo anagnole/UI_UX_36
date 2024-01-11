@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:path/path.dart';
 import 'package:snapgoals_v2/src/appbar_etc.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 
 
@@ -41,12 +42,6 @@ class _CameraViewPageState extends State<CameraScreen> {
     _controller.dispose();
     super.dispose();
   }
-
-
-
-
-
-
 
 @override
 Widget build(BuildContext context) {
@@ -110,9 +105,7 @@ Widget build(BuildContext context) {
               child: IconButton(
                 iconSize: 24.0,
                 icon: Image.asset('assets/images/shutter_button.png'),
-                onPressed: () {
-                  // Handle button click
-                },
+                onPressed: (){_takePictureAndSave(context);},
               ),
             ),
           ],
@@ -123,6 +116,28 @@ Widget build(BuildContext context) {
               color: const Color(0xFF5F54A6),
             ),]))
   );
+  
+}
+Future<void> _takePictureAndSave(BuildContext context) async {
+    try {
+      XFile? image = await _controller.takePicture();
+
+    
+      // Get the project's directory
+      final Directory appDirectory = await getApplicationDocumentsDirectory();
+      final String appPath = appDirectory.path;
+
+      // Move the image to the project's directory
+      final File newImage = File(image.path);
+      final String newImagePath = '$appPath/image_${DateTime.now().millisecondsSinceEpoch}.png';
+      await newImage.copy(newImagePath);
+
+      // You can now use newImagePath as the path to the saved image
+      print('Image saved at: $newImagePath');
+    
+    } catch (e) {
+      print('Error taking picture: $e');
+    }
+  }
 }
 
-}
