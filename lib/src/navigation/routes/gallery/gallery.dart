@@ -1,132 +1,69 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
 import 'package:camera/camera.dart';
-import 'package:snapgoals_v2/src/navigation/routes/gallery/widgets/picture.dart';
+
+import 'widgets/picture.dart';
 
 class GalleryPage extends StatelessWidget {
   const GalleryPage({super.key});
   @override
   build(BuildContext context) {
+    List<GoalImageWidget> widgetList = [
+      GoalImageWidget(
+        task_id: 1,
+        borderColor: const Color.fromARGB(255, 39, 38, 35),
+        goalImage: AssetImage('assets/images/test_image.jpg'),
+      ),GoalImageWidget(
+        task_id: 1,
+        borderColor: Colors.yellow,
+        goalImage: AssetImage('assets/images/test_image.jpg'),
+      ),GoalImageWidget(
+        task_id: 1,
+        borderColor: Color.fromARGB(255, 29, 24, 179),
+        goalImage: AssetImage('assets/images/test_image.jpg'),
+      ),GoalImageWidget(
+        task_id: 1,
+        borderColor: Color.fromARGB(255, 223, 65, 21),
+        goalImage: AssetImage('assets/images/test_image.jpg'),
+      ),
+      GoalImageWidget(
+        task_id: 1,
+        borderColor: const Color.fromARGB(255, 72, 65, 2),
+        goalImage: AssetImage('assets/images/test_image.jpg'),
+      ),
+      // Add more widgets as needed
+    ];
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: ElevatedButton(
-        onPressed: () async {
-          // Navigate to the SecondScreen when the button is pressed
-          WidgetsFlutterBinding.ensureInitialized();
-          List<CameraDescription> cameras = await availableCameras();
-          if (cameras.isNotEmpty) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => CameraScreen(cameras: cameras)),
-            );
-          }
-        },
-        child: Text('Go to camera'),
-      ),
+      body: Column(
+        children: [
+          SizedBox(height: 20.0),
+          Container(
+        height: screenHeight*0.73,
+        width: screenWidth, // Set a fixed height or adjust based on your design
+        child: ListView.builder(
+           // Set shrinkWrap to true
+          itemCount: (widgetList.length / 2).ceil(),
+          itemBuilder: (context, index) {
 
-      // decoration: const BoxDecoration(
-      //   image: DecorationImage(
-      //     image: AssetImage(
-      //         'assets/images/background.png'), // Replace with your image path
-      //     fit: BoxFit.fill, // Adjust the image fit as needed
-      //   ),
-      //   ),Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: <Widget>[
-      //       Text(
-      //         'This is a sample page!',
-      //         style: TextStyle(fontSize: 20),
-      //       ),
-      //       SizedBox(height: 20),
-      //       ElevatedButton(
-      //         onPressed: () {
-      //           // Implement button functionality here
-      //         },
-      //         child: Text('Sample Button'),
-      //       ),
-      //     ],
+            if (widgetList.length!=2 && index==(widgetList.length / 2).ceil()-1){
+              return Row(children: [SizedBox(width: screenWidth*0.05,),Card(elevation:20.0,child: widgetList[2*index])],);
+            }
+            else{
+            return Column(
+              children: [Row( mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                 Card(elevation:20.0,child: widgetList[2*index]), SizedBox(width: screenWidth*0.1 ), Card(elevation:20,child: widgetList[2*index+1])
+                ],
+              ),SizedBox(height: screenHeight*0.015,)]
+            );}
+          },
+        ),
+      ),
+        ],
+      ),
     );
   }
 }
-
-// Example usage of this page in another widget or screen:
-// Navigator.push(
-//   context,
-//   MaterialPageRoute(builder: (context) => SamplePage()),
-// );
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: TaskScreen(),
-//     );
-//   }
-// }
-
-// class TaskScreen extends StatefulWidget {
-//   @override
-//   _TaskScreenState createState() => _TaskScreenState();
-// }
-
-// class _TaskScreenState extends State<TaskScreen> {
-//   late taskProvider provider;
-//   late Future<List<task>> _tasksFuture;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     provider = taskProvider();
-//     _tasksFuture = fetchTasks();
-//   }
-
-//   Future<List<task>> fetchTasks() async {
-//     await provider.open('your_database_path.db');
-//     // Fetch tasks from the database
-//     List<Map<String, Object?>> tasksMapList = await provider.db.query('tasks');
-
-//     // Convert maps to task objects
-//     List<task> tasks = tasksMapList.map((taskMap) => task.fromMap(taskMap)).toList();
-
-//     return tasks;
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Task Details'),
-//       ),
-//       body: FutureBuilder<List<task>>(
-//         future: _tasksFuture,
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(child: CircularProgressIndicator());
-//           } else if (snapshot.hasError) {
-//             return Center(child: Text('Error: ${snapshot.error}'));
-//           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//             return Center(child: Text('No tasks available'));
-//           } else {
-//             return ListView.builder(
-//               itemCount: snapshot.data!.length,
-//               itemBuilder: (context, index) {
-//                 task currentTask = snapshot.data![index];
-//                 return Card(
-//                   margin: EdgeInsets.all(8.0),
-//                   child: ListTile(
-//                     title: Text(currentTask.description),
-//                     subtitle: Text('Category: ${currentTask.category}\n'
-//                         'Completed: ${currentTask.completed ? 'Yes' : 'No'}'),
-//                     // You can display more task details here
-//                   ),
-//                 );
-//               },
-//             );
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }

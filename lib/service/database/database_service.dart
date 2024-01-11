@@ -32,7 +32,7 @@ class DatabaseService {
 
     await prefs.setString('name', 'George');
 
-    //await SnapgoalsDB().createTable(database);
+    await SnapgoalsDB().createTable(database);
 
     return database;
   }
