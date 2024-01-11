@@ -7,9 +7,7 @@ typedef OnSubmitCallback = void Function(
 
 class CreateGoal extends StatefulWidget {
   final Task? task;
-  //final ValueChanged<String, String, String> onSubmit;
   final OnSubmitCallback onSubmit;
-  //void onSubmit (String: title, String: category, String: description)  ;
 
   const CreateGoal({
     super.key,
@@ -25,6 +23,7 @@ class _CreateGoal extends State<CreateGoal> {
   final controller = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final FocusNode textFocusNode = FocusNode();
+  bool titleEmpty = false;
 
   @override
   void initState() {
@@ -42,15 +41,131 @@ class _CreateGoal extends State<CreateGoal> {
     super.dispose();
   }
 
+  String _selectedCategory = 'fitness';
+
   @override
   Widget build(BuildContext context) {
-    //final isEditing = widget.task != null;
     return Scaffold(
-        appBar: const SnapGoalsAppBar2(),
-        backgroundColor: Colors.transparent,
-        body: Container(
-          child: Text('eiuvhwiu'),
-        ));
+      backgroundColor: Colors.transparent,
+      appBar: const SnapGoalsAppBar2(),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/background.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            // Changed to ListView to accommodate the keyboard.
+            children: <Widget>[
+              const Text(
+                'Title',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 6),
+              Form(
+                key: formKey,
+                child: TextFormField(
+                  autofocus: true,
+                  focusNode: textFocusNode,
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter task title',
+                    filled: true,
+                    fillColor: Color.fromARGB(102, 255, 255, 255),
+                  ),
+                  validator: (value) {
+                    final isTitleEmpty = value == null || value.isEmpty;
+                    if (isTitleEmpty != titleEmpty) {
+                      setState(() {
+                        titleEmpty = isTitleEmpty;
+                      });
+                    }
+                    return isTitleEmpty ? 'Title is required' : null;
+                  },
+                ),
+              ),
+              SizedBox(height: titleEmpty ? 0 : 24),
+              const Text(
+                'Category Name',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              RadioListTile<String>(
+                title: const Text('fitness'),
+                value: 'fitness',
+                groupValue: _selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value ?? 'fitness';
+                  });
+                },
+              ),
+              RadioListTile<String>(
+                title: const Text('study'),
+                value: 'study',
+                groupValue: _selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value ?? 'study';
+                  });
+                },
+              ),
+              RadioListTile<String>(
+                title: const Text('social'),
+                value: 'social',
+                groupValue: _selectedCategory,
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategory = value ?? 'social';
+                  });
+                },
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Description',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 8),
+              const TextField(
+                maxLines: 3,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Enter task description',
+                  filled: true,
+                  fillColor: Color.fromARGB(102, 255, 255, 255),
+                ),
+              ),
+              const SizedBox(height: 27),
+              Center(
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      widget.onSubmit(controller.text, 'fitness', '');
+                    }
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text(
+                    'Add Task',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    elevation: 4,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
