@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../appbar_withx.dart';
+import 'Widgets/Stat_box.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -98,6 +99,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: _endEditing,
                   child: const Text('Save'),
                 ),
+              const StatBox(stat: "Goals Completed"),
+              const SizedBox(height: 8),
+              const StatBox(stat: "Goals Remaining"),
+              const SizedBox(height: 8),
+              const StatBox(stat: "Top Category"),
             ],
           ),
         ),
