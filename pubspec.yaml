@@ -16,6 +16,7 @@ dependencies:
   charts_flutter: any
   provider: ^6.1.1
   shared_preferences: ^2.2.2
+  camera: ^0.10.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

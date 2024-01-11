@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
+import 'package:camera/camera.dart';
 
 class GalleryPage extends StatelessWidget {
   const GalleryPage({super.key});
@@ -6,10 +8,22 @@ class GalleryPage extends StatelessWidget {
   build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Text(
-        'Gallery page',
-        style: Theme.of(context).textTheme.titleLarge,
+      body: ElevatedButton(
+        onPressed: () async {
+          // Navigate to the SecondScreen when the button is pressed
+          WidgetsFlutterBinding.ensureInitialized();
+          List<CameraDescription> cameras = await availableCameras();
+          if (cameras.isNotEmpty) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => CameraScreen(cameras: cameras)),
+            );
+          }
+        },
+        child: Text('Go to camera'),
       ),
+
       // decoration: const BoxDecoration(
       //   image: DecorationImage(
       //     image: AssetImage(
