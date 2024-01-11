@@ -9,17 +9,22 @@ class SnapgoalsDB {
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
       "title" TEXT NOT NULL,
+      "description" TEXT NOT NULL,
+      "category" TEXT NOT NULL,
       "created_at" INTEGER NOT NULL DEFAULT (cast(strftime('%s','now') as int)),
       "updated_at" INTEGER,
       PRIMARY KEY("id" AUTOINCREMENT)
     );""");
   }
 
-  Future<int> create({required String title}) async {
+  Future<int> create(
+      {required String title,
+      required String category,
+      String description = ''}) async {
     final database = await DatabaseService().database;
     return await database.rawInsert(
-      '''INSERT INTO $tableName (title,created_at) VALUES (?,?)''',
-      [title, DateTime.now().millisecondsSinceEpoch],
+      '''INSERT INTO $tableName (title, category, description, created_at) VALUES (?,?,?,?)''',
+      [title, category, description, DateTime.now().millisecondsSinceEpoch],
     );
   }
 
@@ -30,6 +35,18 @@ class SnapgoalsDB {
     return tasks.map((task) => Task.fromSqfliteDatabase(task)).toList();
   }
 
+  Future<int> taskNum() async {
+    final database = await DatabaseService().database;
+
+    final List<Map<String, dynamic>> result =
+        await database.rawQuery('''SELECT COUNT(*) as count FROM $tableName''');
+
+    if (result.isNotEmpty) {
+      return int.tryParse(result.first.toString()) ?? 0;
+    }
+    return 0;
+  }
+
   Future<Task> fetchById(int id) async {
     final database = await DatabaseService().database;
     final task = await database
@@ -37,6 +54,7 @@ class SnapgoalsDB {
     return Task.fromSqfliteDatabase(task.first);
   }
 
+//maybe remove??
   Future<int> update({required int id, String? title}) async {
     final database = await DatabaseService().database;
     return await database.update(

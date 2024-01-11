@@ -3,6 +3,7 @@ import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/create_goal.dart';
 import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 class GoalsPage extends StatelessWidget {
   const GoalsPage({super.key});
@@ -47,19 +48,31 @@ class GoalsPage extends StatelessWidget {
                             icon: const Icon(Icons.delete, color: Colors.red),
                           ),
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) => CreateGoal(
-                                onSubmit: (title) async {
+                            Navigator.of(context).push(modalAnimation(
+                              CreateGoal(
+                                onSubmit: (title, category, description) async {
                                   await appState.snapgoalsDB
                                       .update(id: task.id, title: title);
                                   appState.fetchTasks();
                                   appState.notify();
                                   //if (!mounted) return;
-                                  Navigator.of(context).pop();
+                                  //Navigator.of(context).pop();
                                 },
                               ),
-                            );
+                            ));
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => CreateGoal(
+                            //     onSubmit: (title, category, description) async {
+                            //       await appState.snapgoalsDB
+                            //           .update(id: task.id, title: title);
+                            //       appState.fetchTasks();
+                            //       appState.notify();
+                            //       //if (!mounted) return;
+                            //       Navigator.of(context).pop();
+                            //     },
+                            //   ),
+                            // );
                           },
                         );
                       },
@@ -73,16 +86,28 @@ class GoalsPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (_) => CreateGoal(onSubmit: (title) async {
-                await appState.snapgoalsDB.create(title: title);
+            Navigator.of(context).push(modalAnimation(
+              CreateGoal(onSubmit: (title, category, description) async {
+                await appState.snapgoalsDB.create(
+                    title: title, category: category, description: description);
                 //if (!mounted) return;
                 appState.fetchTasks();
                 appState.notify();
-                Navigator.of(context).pop();
+                //Navigator.of(context).pop();
               }),
-            );
+            ));
+            // showDialog(
+            //   context: context,
+            //   builder: (_) =>
+            //       CreateGoal(onSubmit: (title, category, description) async {
+            //     await appState.snapgoalsDB.create(
+            //         title: title, category: category, description: description);
+            //     //if (!mounted) return;
+            //     appState.fetchTasks();
+            //     appState.notify();
+            //     Navigator.of(context).pop();
+            //   }),
+            // );
           },
         ));
   }

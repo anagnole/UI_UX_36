@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
+import 'package:snapgoals_v2/src/modal/modal.dart';
+import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 const primaryColor = Color(0xFF33228E);
 
@@ -40,10 +41,8 @@ class SnapGoalsAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             onPressed: () {
               // Navigate to the SecondPage when IconButton is pressed
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
+              Navigator.of(context)
+                  .push(modalAnimation(const Modal(pageName: 'profile')));
             },
             icon: Image.asset("assets/images/avatar icon.png"),
           ),
