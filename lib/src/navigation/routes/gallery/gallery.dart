@@ -57,12 +57,14 @@ class GalleryPage extends StatelessWidget {
                       SizedBox(width: screenWidth * 0.05),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                          Navigator.of(context).push(modalAnimation(
+                              const Modal(pageName: 'taskPage')));
                           print('giorgio');
                         },
                         child: InkResponse(
                           onTap: () {
-                            Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                            Navigator.of(context).push(modalAnimation(
+                                const Modal(pageName: 'taskPage')));
                             // Handle tap as needed
                             print('giorgio');
                           },
@@ -81,32 +83,39 @@ class GalleryPage extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          InkWell(
-                            onTap: () {
-                              print('giorgio');
-                            },
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                                // Handle tap as needed
-                                print('giorgio');
-                              },
-                              child: Card(
-                                elevation: 20.0,
-                                child: widgetList[2 * index],
-                              ),
-                              highlightShape: BoxShape.rectangle,
-                            ),
+                          Card(
+                            elevation: 20.0,
+                            child: widgetList[2 * index],
                           ),
+
+                          // InkWell(
+                          //   onTap: () {
+                          //     print('giorgio');
+                          //   },
+                          //   child: InkResponse(
+                          //     onTap: () {
+                          //       Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                          //       // Handle tap as needed
+                          //       print('giorgio');
+                          //     },
+                          //     child: Card(
+                          //       elevation: 20.0,
+                          //       child: widgetList[2 * index],
+                          //     ),
+                          //     highlightShape: BoxShape.rectangle,
+                          //   ),
+                          // ),
                           SizedBox(width: screenWidth * 0.1),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                              Navigator.of(context).push(modalAnimation(
+                                  const Modal(pageName: 'taskPage')));
                               print('giorgio');
                             },
                             child: InkResponse(
                               onTap: () {
-                                 Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                                Navigator.of(context).push(modalAnimation(
+                                    const Modal(pageName: 'taskPage')));
                                 // Handle tap as needed
                                 print('giorgio');
                               },

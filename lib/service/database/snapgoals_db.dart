@@ -24,11 +24,18 @@ class SnapgoalsDB {
   Future<int> create(
       {required String title,
       required String category,
+      required Uint8List picture,
       String description = ''}) async {
     final database = await DatabaseService().database;
     return await database.rawInsert(
-      '''INSERT INTO $tableName (title, category, description, created_at) VALUES (?,?,?,?)''',
-      [title, category, description, DateTime.now().millisecondsSinceEpoch],
+      '''INSERT INTO $tableName (title, category, picture, description, created_at) VALUES (?,?,?,?,?)''',
+      [
+        title,
+        category,
+        picture,
+        description,
+        DateTime.now().millisecondsSinceEpoch
+      ],
     );
   }
 
@@ -76,5 +83,10 @@ class SnapgoalsDB {
   Future<void> delete(int id) async {
     final database = await DatabaseService().database;
     await database.rawDelete('''DELETE FROM $tableName WHERE id = ?''', [id]);
+  }
+
+  Future<void> deleteAll() async {
+    final database = await DatabaseService().database;
+    await database.rawDelete('''DELETE FROM $tableName''');
   }
 }
