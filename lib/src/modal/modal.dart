@@ -34,6 +34,9 @@ class _ModalState extends State<Modal> {
         break;
       case 'taskPage':
         page = const TaskPage();
+
+        break;
+        
       default:
         throw UnimplementedError('no widget for $pageName');
     }
