@@ -1,9 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/appbar_withx.dart';
 
 typedef OnSubmitCallback = void Function(
-    String title, String category, String description);
+    String title, String category, Uint8List picture, String description);
 
 class CreateGoal extends StatefulWidget {
   final Task? task;
@@ -143,7 +145,8 @@ class _CreateGoal extends State<CreateGoal> {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      widget.onSubmit(controller.text, 'fitness', '');
+                      widget.onSubmit(
+                          controller.text, 'fitness', Uint8List(0), '');
                       Navigator.of(context).pop();
                     }
                   },
