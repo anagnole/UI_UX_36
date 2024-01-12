@@ -3,19 +3,33 @@ import 'package:snapgoals_v2/src/appbar_etc.dart';
 
 class GoalImageWidget extends StatelessWidget {
   final ImageProvider goalImage;
-  final Color borderColor;
+  final String category;
   final int task_id;
 
   GoalImageWidget(
       {required this.task_id,
       required this.goalImage,
-      required this.borderColor});
+      required this.category});
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
+    Color secondaryColor = Colors.black;
+    switch (category) {
+      case "fitness":
+        
+        secondaryColor = Color.fromARGB(255, 9, 8, 7);
+        break;
+      case "social":
+        
+        secondaryColor = Color(0xFFFF7556);
+        break;
+      case "study":
+        
+        secondaryColor = Color(0xFFCFC707);
+        break;
+    }
     return GestureDetector(
       onTap: () {}, //go to completed task task_id
       child: Container(
@@ -23,7 +37,7 @@ class GoalImageWidget extends StatelessWidget {
           width: screenWidth * 0.4,
           decoration: BoxDecoration(
               border: Border.all(
-                color: borderColor,
+                color: secondaryColor,
                 width: screenWidth * 0.4 * 0.05,
               ),
               borderRadius: BorderRadius.circular(10.0)),

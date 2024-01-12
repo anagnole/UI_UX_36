@@ -32,69 +32,9 @@ class GoalsPage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final task = tasks[index];
                         //appState.tasks.add(task);
-                        final subTitle =
-                            DateTime.parse(task.updatedAt ?? task.createdAt)
-                                .toString();
+                        
 
-                        return ListTile(
-                          title: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, // Added to align text to the start
-                                children: [
-                                  Text(
-                                    task.title,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(subTitle),
-                                ],
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  WidgetsFlutterBinding.ensureInitialized();
-                                  List<CameraDescription> cameras =
-                                      await availableCameras();
-                                  if (cameras.isNotEmpty) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => CameraScreen(
-                                                cameras: cameras,
-                                                taskId: task.id,
-                                              )),
-                                    );
-                                  }
-                                },
-                                icon: Image.asset(
-                                    'assets/images/camera_icon.png'),
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  await appState.snapgoalsDB.delete(task.id);
-                                  appState.fetchTasks();
-                                  appState.notify();
-                                },
-                                icon: Image.asset('assets/images/trash.png'),
-                              ),
-                            ],
-                          ),
-                          // onTap: () {
-                          //   Navigator.of(context).push(modalAnimation(
-                          //     CreateGoal(
-                          //       onSubmit: (title, category, description) async {
-                          //         await appState.snapgoalsDB
-                          //             .update(id: task.id, title: title);
-                          //         appState.fetchTasks();
-                          //         appState.notify();
-                          //         //if (!mounted) return;
-                          //         //Navigator.of(context).pop();
-                          //       },
-                          //     ),
-                          //   ));
-                          // },
-                        );
+                        return TaskWidget(task_id: task.id, category: task.category, title: task.title);
                       },
                       separatorBuilder: (context, index) => const SizedBox(
                             height: 12,
@@ -118,5 +58,99 @@ class GoalsPage extends StatelessWidget {
             ));
           },
         ));
+  }
+}
+
+
+
+
+
+
+
+
+
+class TaskWidget extends StatelessWidget {
+  final String title;
+  final String category;
+  final int task_id;
+
+  TaskWidget(
+      {required this.task_id, required this.category, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    Color boxColor = Colors.black;
+    Color secondaryColor = Colors.black;
+    switch (category) {
+      case "fitness":
+        boxColor = Color(0xFFAFF4C6);
+        secondaryColor = Color(0xFF14AE5C);
+        break;
+      case "social":
+        boxColor = Color(0xFFFFC7C2);
+        secondaryColor = Color(0xFFFF7556);
+        break;
+      case "study":
+        boxColor = Color(0xFFFFFCBD);
+        secondaryColor = Color(0xFFCFC707);
+        break;
+    }
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    var appState = context.watch<AppState>();
+    appState.fetchTasks();
+
+    return Row(
+      children: [
+        Container(
+            height: screenHeight * 0.07,
+            width: screenWidth * 0.75,
+            decoration: BoxDecoration(
+              color: boxColor,
+              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(
+                color: secondaryColor, // Set your border color
+                width: 3.0, // Set the border width
+              ),
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(title),
+                ),
+                const Spacer(), // Adds flexible space between text and IconButton
+                IconButton(
+                  onPressed: () async {
+                                  await appState.snapgoalsDB.delete(task_id);
+                                  appState.fetchTasks();
+                                  appState.notify();
+                                },
+                  icon: Image.asset('assets/images/trash.png'),
+                ),
+              ],
+            )),
+        SizedBox(
+          width: screenWidth * 0.03,
+        ),
+        IconButton(
+            onPressed:() async {
+                                  WidgetsFlutterBinding.ensureInitialized();
+                                  List<CameraDescription> cameras =
+                                      await availableCameras();
+                                  if (cameras.isNotEmpty) {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => CameraScreen(
+                                                cameras: cameras,
+                                                taskId: task_id,
+                                              )),
+                                    );
+                                  }
+                                },
+            icon: Image.asset('assets/images/camera_icon.png'))
+      ],
+    );
   }
 }

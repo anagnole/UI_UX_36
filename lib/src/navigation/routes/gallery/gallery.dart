@@ -11,27 +11,27 @@ class GalleryPage extends StatelessWidget {
     List<GoalImageWidget> widgetList = [
       GoalImageWidget(
         task_id: 1,
-        borderColor: const Color.fromARGB(255, 39, 38, 35),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Colors.yellow,
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Color.fromARGB(255, 29, 24, 179),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Color.fromARGB(255, 223, 65, 21),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: const Color.fromARGB(255, 72, 65, 2),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       // Add more widgets as needed
