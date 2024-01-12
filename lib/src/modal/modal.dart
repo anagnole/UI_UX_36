@@ -30,7 +30,6 @@ class _ModalState extends State<Modal> {
     switch (pageName) {
       case 'profile':
         page = const ProfilePage();
-
         break;
       case 'taskPage':
         page = const TaskPage();

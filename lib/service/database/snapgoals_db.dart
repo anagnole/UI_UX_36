@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:snapgoals_v2/service/database/database_service.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:sqflite/sqflite.dart';
@@ -12,6 +14,7 @@ class SnapgoalsDB {
       "title" TEXT NOT NULL,
       "description" TEXT NOT NULL,
       "category" TEXT NOT NULL,
+      "picture" BLOB, 
       "created_at" INTEGER NOT NULL DEFAULT (cast(strftime('%s','now') as int)),
       "updated_at" INTEGER,
       PRIMARY KEY("id" AUTOINCREMENT)
@@ -56,12 +59,12 @@ class SnapgoalsDB {
   }
 
 //maybe remove??
-  Future<int> update({required int id, String? title}) async {
+  Future<int> update({required int id, required Uint8List picture}) async {
     final database = await DatabaseService().database;
     return await database.update(
       tableName,
       {
-        if (title != null) 'title': title,
+        'picture': picture,
         'updated_at': DateTime.now().millisecondsSinceEpoch,
       },
       where: 'id = ?',

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/modal/modal.dart';
-import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
-import 'package:camera/camera.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'widgets/picture.dart';
@@ -15,15 +13,18 @@ class GalleryPage extends StatelessWidget {
         task_id: 1,
         borderColor: const Color.fromARGB(255, 39, 38, 35),
         goalImage: AssetImage('assets/images/test_image.jpg'),
-      ),GoalImageWidget(
+      ),
+      GoalImageWidget(
         task_id: 1,
         borderColor: Colors.yellow,
         goalImage: AssetImage('assets/images/test_image.jpg'),
-      ),GoalImageWidget(
+      ),
+      GoalImageWidget(
         task_id: 1,
         borderColor: Color.fromARGB(255, 29, 24, 179),
         goalImage: AssetImage('assets/images/test_image.jpg'),
-      ),GoalImageWidget(
+      ),
+      GoalImageWidget(
         task_id: 1,
         borderColor: Color.fromARGB(255, 223, 65, 21),
         goalImage: AssetImage('assets/images/test_image.jpg'),
