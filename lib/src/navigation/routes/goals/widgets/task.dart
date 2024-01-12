@@ -1,73 +1,8 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:snapgoals_v2/src/appbar_etc.dart';
-
-class GoalImageWidget extends StatelessWidget {
-  final ImageProvider goalImage;
-  final Color borderColor;
-  final int task_id;
-
-  GoalImageWidget(
-      {required this.task_id,
-      required this.goalImage,
-      required this.borderColor});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
-    return GestureDetector(
-      onTap: () {}, //go to completed task task_id
-      child: Container(
-          height: screenHeight * 0.25,
-          width: screenWidth * 0.4,
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: borderColor,
-                width: screenWidth * 0.4 * 0.05,
-              ),
-              borderRadius: BorderRadius.circular(10.0)),
-          child: Image(
-            image: goalImage,
-            fit: BoxFit.cover,
-          )),
-    );
-  }
-}
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: SnapGoalsAppBar(),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Row(
-              children: [
-                SizedBox(
-                  width: 30,
-                ),
-                TaskWidget(
-                  task_id: 1,
-                  title: "testing task",
-                  category: "social",
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:snapgoals_v2/src/app_state.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
+import 'package:provider/provider.dart';
 
 class TaskWidget extends StatelessWidget {
   final String title;
@@ -79,6 +14,9 @@ class TaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+    appState.fetchTasks();
+
     Color boxColor = Colors.black;
     Color secondaryColor = Colors.black;
     switch (category) {
@@ -120,7 +58,9 @@ class TaskWidget extends StatelessWidget {
                 const Spacer(), // Adds flexible space between text and IconButton
                 IconButton(
                   onPressed: () async {
-                    // Your delete code here
+                    await appState.snapgoalsDB.delete(task_id);
+                    appState.fetchTasks();
+                    appState.notify();
                   },
                   icon: Image.asset('assets/images/trash.png'),
                 ),
@@ -131,7 +71,18 @@ class TaskWidget extends StatelessWidget {
         ),
         IconButton(
             onPressed: () async {
-              // the code that takes you to camera
+              WidgetsFlutterBinding.ensureInitialized();
+              List<CameraDescription> cameras = await availableCameras();
+              if (cameras.isNotEmpty) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => CameraScreen(
+                            cameras: cameras,
+                            taskId: task_id,
+                          )),
+                );
+              }
             },
             icon: Image.asset('assets/images/camera_icon.png'))
       ],
