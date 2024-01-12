@@ -67,8 +67,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         Color(0xFFFFFFFF)
                     ] 
                     ),
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(40.0),
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(40.0),
                 ),
                 child: Column(
                   children: [

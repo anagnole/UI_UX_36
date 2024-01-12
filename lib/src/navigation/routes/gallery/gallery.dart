@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/src/modal/modal.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
 import 'package:camera/camera.dart';
+import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'widgets/picture.dart';
 
@@ -48,14 +50,16 @@ class GalleryPage extends StatelessWidget {
           itemCount: (widgetList.length / 2).ceil(),
           itemBuilder: (context, index) {
 
-            if (widgetList.length!=2 && index==(widgetList.length / 2).ceil()-1){
+            if (widgetList.length!=2 && index==(widgetList.length / 2).ceil()-1){ print('test');
               return Row(children: [SizedBox(width: screenWidth*0.05,),Card(elevation:20.0,child: widgetList[2*index])],);
             }
-            else{
+            else{ 
             return Column(
               children: [Row( mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                 Card(elevation:20.0,child: widgetList[2*index]), SizedBox(width: screenWidth*0.1 ), Card(elevation:20,child: widgetList[2*index+1])
+                 GestureDetector(onTap:() {print('test');
+                   Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                 },child : Card(elevation:20.0,child: widgetList[2*index])), SizedBox(width: screenWidth*0.1 ), Card(elevation:20,child: widgetList[2*index+1])
                 ],
               ),SizedBox(height: screenHeight*0.015,)]
             );}

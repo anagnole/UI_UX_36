@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import '../../../appbar_withx.dart';
 import '../../../widgets/text_with_bar.dart';
 
-class Taskpage extends StatelessWidget{
-  const Taskpage({super.key});
+class TaskPage extends StatelessWidget{
+  const TaskPage({super.key});
 
   @override
   Widget build(BuildContext context){
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: const SnapGoalsAppBar2(),
+      backgroundColor: Colors.transparent,
       body: Container(
         padding: const EdgeInsets.all(24.0),
-        decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/background.png'),
-          fit: BoxFit.fill,)
-        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
