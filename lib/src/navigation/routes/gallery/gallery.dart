@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/src/modal/modal.dart';
+import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'widgets/picture.dart';
 
@@ -38,49 +40,53 @@ class GalleryPage extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: SafeArea(
-        child: Column(
-          children: [
-            SizedBox(height: 10.0),
-            Container(
-              height: screenHeight * 0.73,
-              width:
-                  screenWidth, // Set a fixed height or adjust based on your design
-              child: ListView.builder(
-                // Set shrinkWrap to true
-                itemCount: (widgetList.length / 2).ceil(),
-                itemBuilder: (context, index) {
-                  if (widgetList.length != 2 &&
-                      index == (widgetList.length / 2).ceil() - 1) {
-                    return Row(
-                      children: [
-                        SizedBox(
-                          width: screenWidth * 0.05,
-                        ),
-                        Card(elevation: 20.0, child: widgetList[2 * index])
-                      ],
-                    );
-                  } else {
-                    return Column(children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Card(elevation: 20.0, child: widgetList[2 * index]),
-                          SizedBox(width: screenWidth * 0.1),
-                          Card(elevation: 20, child: widgetList[2 * index + 1])
-                        ],
-                      ),
-                      SizedBox(
-                        height: screenHeight * 0.015,
-                      )
-                    ]);
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
+      body: Column(children: [
+        SizedBox(height: 20.0),
+        Container(
+          height: screenHeight * 0.73,
+          width:
+              screenWidth, // Set a fixed height or adjust based on your design
+          child: ListView.builder(
+            // Set shrinkWrap to true
+            itemCount: (widgetList.length / 2).ceil(),
+            itemBuilder: (context, index) {
+              if (widgetList.length != 2 &&
+                  index == (widgetList.length / 2).ceil() - 1) {
+                print('test');
+                return Row(
+                  children: [
+                    SizedBox(
+                      width: screenWidth * 0.05,
+                    ),
+                    Card(elevation: 20.0, child: widgetList[2 * index])
+                  ],
+                );
+              } else {
+                return Column(children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            print('test');
+                            Navigator.of(context).push(modalAnimation(
+                                const Modal(pageName: 'taskPage')));
+                          },
+                          child: Card(
+                              elevation: 20.0, child: widgetList[2 * index])),
+                      SizedBox(width: screenWidth * 0.1),
+                      Card(elevation: 20, child: widgetList[2 * index + 1])
+                    ],
+                  ),
+                  SizedBox(
+                    height: screenHeight * 0.015,
+                  )
+                ]);
+              }
+            },
+          ),
+        )
+      ]),
     );
   }
 }

@@ -40,8 +40,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    //     var appState = context.watch<AppState>();
-    // appState.fetchTasks();
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(24.0),
