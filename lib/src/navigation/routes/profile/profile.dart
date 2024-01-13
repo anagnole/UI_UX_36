@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/Widgets/Stat_box.dart';
 import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
@@ -9,18 +10,16 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController _nameController;
   bool _isEditing = false;
-  late String _userName = 'John Doe'; // Replace with the initial user name
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: _userName);
   }
 
   @override
@@ -35,17 +34,21 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _endEditing() {
+  Future<void> _endEditing(String newText) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', newText);
     setState(() {
       _isEditing = false;
-      _userName = _nameController.text;
+      _nameController = TextEditingController(text: newText);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
-    appState.fetchNonCompletedTasks(); 
+    _nameController = TextEditingController(text: appState.name);
+
+    appState.fetchNonCompletedTasks();
     appState.fetchCompletedTasks();
     appState.totalTasksByCategory();
 
@@ -120,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        _userName,
+                                        appState.name!,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
@@ -138,84 +141,87 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       if (_isEditing)
                         ElevatedButton(
-                          onPressed: _endEditing,
+                          onPressed: () async {
+                            await _endEditing(_nameController.text);
+                            appState.name = _nameController.text;
+
+                            appState.notify();
+                          },
                           child: const Text('Save'),
                         ),
                       const SizedBox(height: 24),
-                      FutureBuilder(future: appState.futureCompletedTasks,
-                        builder: (context,snapshot) {
-
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );}
-                          else{
-                            final tasks = snapshot.data!;
-                            int  length1=tasks.length;
-                          return  StatBox(stat: 'Goals Completed: $length1');}
-                        }
-                      ),
-                      const SizedBox(height: 24),FutureBuilder(future: appState.futureNonCompletedTasks,
-                        builder: (context,snapshot) {
-
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );}
-                          else{
-                            final tasks = snapshot.data!;
-                            int  length1=tasks.length;
-                          return  StatBox(stat: 'Goals Remaining: $length1');}
-                        }
-                      ),
+                      FutureBuilder(
+                          future: appState.futureCompletedTasks,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              final tasks = snapshot.data!;
+                              int length1 = tasks.length;
+                              return StatBox(stat: 'Goals Completed: $length1');
+                            }
+                          }),
                       const SizedBox(height: 24),
-                      FutureBuilder(future: appState.futureTaskNumByCategory,
-                        builder: (context,snapshot) {
+                      FutureBuilder(
+                          future: appState.futureNonCompletedTasks,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              final tasks = snapshot.data!;
+                              int length1 = tasks.length;
+                              return StatBox(stat: 'Goals Remaining: $length1');
+                            }
+                          }),
+                      const SizedBox(height: 24),
+                      FutureBuilder(
+                          future: appState.futureTaskNumByCategory,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              final sums = snapshot.data!;
+                              int fitness = sums[0];
+                              int social = sums[1];
+                              int study = sums[2];
 
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );}
-                          else{
-                            final sums = snapshot.data!;
-                            int  fitness=sums[0];
-                            int social=sums[1];
-                            int study=sums[2];
+                              int top = max(fitness, max(social, study));
+                              String out = "";
+                              if (top == fitness &&
+                                  top == social &&
+                                  top == study) {
+                                if (top == 0) {
+                                  out =
+                                      'Top Category: None, complete more tasks';
+                                } else {
+                                  out = "Top Category: All of them";
+                                }
+                              } else if (top == fitness && top == social) {
+                                out = "Top Category: Fitness and Social";
+                              } else if (top == fitness && top == study) {
+                                out = "Top Category: Fitness and Study";
+                              } else if (top == study && top == social) {
+                                out = "Top Category: Social and Study";
+                              } else if (top == study) {
+                                out = "Top Category: Study";
+                              } else if (top == fitness) {
+                                out = "Top Category: Fitness";
+                              } else if (top == social) {
+                                out = "Top Category: Social";
+                              }
 
-
-                            int top=max(fitness,max(social,study));
-                            String out="";
-                            if (top==fitness && top==social && top==study){
-                              if (top==0){
-                                 out='Top Category: None, complete more tasks';
-                              }
-                              else{
-                               out="Top Category: All of them";}
+                              return StatBox(stat: out);
                             }
-                            else if (top==fitness && top==social){
-                                 out="Top Category: Fitness and Social";
-                              }
-                            
-                            else if (top==fitness && top==study){
-                                 out="Top Category: Fitness and Study";
-                              }
-                            else if (top==study && top==social){
-                                 out="Top Category: Social and Study";
-                              }
-                            else if (top==study){
-                               out = "Top Category: Study";
-                            }
-                            else if (top==fitness){
-                               out = "Top Category: Fitness";
-                            }
-                            else if (top==social){
-                               out = "Top Category: Social";
-                            }
-                            
-                            
-                          return  StatBox(stat: out);}
-                        }
-                      ),
+                          }),
                     ],
                   ))
             ],

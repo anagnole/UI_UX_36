@@ -9,9 +9,9 @@ class AppState extends ChangeNotifier {
   Future<List<Task>>? futureNonCompletedTasks;
   Future<List<Task>>? futureCompletedTasks;
   Future<List<int>>? futureTaskNumByCategory;
-
   Future<int>? futureTaskNum;
   Future<SharedPreferences>? prefs = SharedPreferences.getInstance();
+  String? name;
 
   final snapgoalsDB = SnapgoalsDB();
 
@@ -28,11 +28,16 @@ class AppState extends ChangeNotifier {
   }
 
   void totalTasksByCategory() {
-    futureTaskNumByCategory = snapgoalsDB.taskNumByCategory(); //completed tasks mono
+    futureTaskNumByCategory =
+        snapgoalsDB.taskNumByCategory(); //completed tasks mono
   }
 
   void totalTasks() {
     futureTaskNum = snapgoalsDB.taskNum();
+  }
+
+  void setName(String newName) {
+    name = newName;
   }
 
   void notify() {

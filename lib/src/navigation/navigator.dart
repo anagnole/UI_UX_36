@@ -7,10 +7,7 @@ import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
 
 class MyNavigator extends StatefulWidget {
   final int index;
-  const MyNavigator({
-    super.key,
-    required this.index
-  });
+  const MyNavigator({super.key, required this.index});
 
   @override
   State<MyNavigator> createState() => _MyNavigatorState();
@@ -89,7 +86,7 @@ class _MyNavigatorState extends State<MyNavigator> {
   }
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     currentPageIndex = widget.index;
   }
@@ -153,11 +150,12 @@ class _MyNavigatorState extends State<MyNavigator> {
           ],
         ),
       ),
-      body: GestureDetector(onHorizontalDragEnd: (DragEndDetails details) {
+      body: GestureDetector(
+        onHorizontalDragEnd: (DragEndDetails details) {
           if (details.primaryVelocity! > 0) {
             // Swiping right
-            switch (currentPageIndex){
-              case 0: 
+            switch (currentPageIndex) {
+              case 0:
                 stateHandler(2, false);
                 break;
               case 1:
@@ -166,11 +164,11 @@ class _MyNavigatorState extends State<MyNavigator> {
               case 2:
                 stateHandler(1, false);
                 break;
-                }
+            }
           } else if (details.primaryVelocity! < 0) {
             // Swiping left
-                        switch (currentPageIndex){
-              case 0: 
+            switch (currentPageIndex) {
+              case 0:
                 stateHandler(1, true);
                 break;
               case 1:
@@ -179,8 +177,7 @@ class _MyNavigatorState extends State<MyNavigator> {
               case 2:
                 stateHandler(0, true);
                 break;
-                }
-            
+            }
           }
         },
         child: Container(

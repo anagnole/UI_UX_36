@@ -22,8 +22,11 @@ class CreateGoal extends StatefulWidget {
 }
 
 class _CreateGoal extends State<CreateGoal> {
-  final controller = TextEditingController();
+  final controllerTitle = TextEditingController();
+  final controllerDesctipion = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final formKey2 = GlobalKey<FormState>();
+
   final FocusNode textFocusNode = FocusNode();
   bool titleEmpty = false;
 
@@ -31,7 +34,8 @@ class _CreateGoal extends State<CreateGoal> {
   void initState() {
     super.initState();
 
-    controller.text = widget.task?.title ?? '';
+    controllerTitle.text = widget.task?.title ?? '';
+    controllerDesctipion.text = widget.task?.title ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       textFocusNode.requestFocus();
     });
@@ -70,9 +74,10 @@ class _CreateGoal extends State<CreateGoal> {
               Form(
                 key: formKey,
                 child: TextFormField(
+                  maxLength: 30,
                   autofocus: true,
                   focusNode: textFocusNode,
-                  controller: controller,
+                  controller: controllerTitle,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: 'Enter task title',
@@ -131,13 +136,17 @@ class _CreateGoal extends State<CreateGoal> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const TextField(
-                maxLines: 3,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Enter task description',
-                  filled: true,
-                  fillColor: Color.fromARGB(102, 255, 255, 255),
+              Form(
+                key: formKey2,
+                child: TextField(
+                  controller: controllerDesctipion,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Enter task description',
+                    filled: true,
+                    fillColor: Color.fromARGB(102, 255, 255, 255),
+                  ),
                 ),
               ),
               const SizedBox(height: 27),
@@ -145,8 +154,8 @@ class _CreateGoal extends State<CreateGoal> {
                 child: ElevatedButton.icon(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      widget.onSubmit(
-                          controller.text, 'fitness', Uint8List(0), '');
+                      widget.onSubmit(controllerTitle.text, _selectedCategory,
+                          Uint8List(0), controllerDesctipion.text);
                       Navigator.of(context).pop();
                     }
                   },
