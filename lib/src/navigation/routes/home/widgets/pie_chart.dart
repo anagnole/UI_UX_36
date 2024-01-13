@@ -14,7 +14,7 @@ class PieChartWidget extends StatelessWidget {
     appState.totalTasksByCategory();
     
 
-    var chart = FutureBuilder<List<int>>(future: appState.futureTaskNumByCategory,
+    return FutureBuilder<List<int>>(future: appState.futureTaskNumByCategory,
      builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -42,15 +42,15 @@ class PieChartWidget extends StatelessWidget {
                 ],
               )
             ];
-
-              return charts.PieChart(
-      seriesList,
-      animate: true,  
-    );}});
-
-
-
-    return Stack(
+              if (sums[0]+sums[1]+sums[2]==0){
+                return Text("you have not completed any tasks yet");
+              }
+              else{
+                var chart=charts.PieChart(
+                seriesList,
+                animate: true,  
+              );
+              return Stack(
       children: [
         SizedBox(
           height: 300,
@@ -67,7 +67,10 @@ class PieChartWidget extends StatelessWidget {
           ),
         ),
       ],
-    );
+    ); }}});
+
+
+
   }
 
   Color _getColorForCategory(String category) {
