@@ -110,9 +110,10 @@ class _CameraViewPageState extends State<CameraScreen> {
                 child: IconButton(
                   iconSize: 24.0,
                   icon: Image.asset('assets/images/shutter_button.png'),
-                  onPressed: () {
-                    _takePictureAndSave(context, taskId, db);
-                   Navigator.of(context).pop();
+                  onPressed: () async {
+                    await _takePictureAndSave(context, taskId, db);
+                    appState.notify();
+                    Navigator.of(context).pop();
                   },
                 ),
               ),
