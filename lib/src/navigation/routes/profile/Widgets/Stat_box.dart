@@ -12,7 +12,7 @@ class StatBox extends Textwithbar {
           color: const Color(0xFF3B8BB1),
           border: Border.all(color: Colors.black),
           borderRadius:
-              BorderRadius.circular(25.0), // Adjust border radius as needed
+              BorderRadius.circular(17.0), // Adjust border radius as needed
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

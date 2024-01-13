@@ -1,37 +1,53 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/appbar_etc.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'package:snapgoals_v2/src/modal/modal.dart';
 
-class GoalImageWidget extends StatelessWidget {
-  final ImageProvider goalImage;
-  final String category;
-  final int task_id;
+class GoalImageWidget extends StatefulWidget {
+  final Task task;
 
-  GoalImageWidget(
-      {required this.task_id, required this.goalImage, required this.category});
+  const GoalImageWidget(
+      {required this.task});
+
+  @override
+  State<GoalImageWidget> createState() => _GoalImageWidgetState();
+}
+
+class _GoalImageWidgetState extends State<GoalImageWidget> {
+  late Task task;
+
+  @override
+    void initState() {
+    super.initState();
+    task = widget.task;
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     Color secondaryColor = Colors.black;
+    String category = widget.task.category;
+    Uint8List goalImage = widget.task.picture;
     switch (category) {
       case "fitness":
-        secondaryColor = Color(0xFFFF7556);
+        secondaryColor = const Color(0xFFFF7556);
         break;
       case "social":
-        secondaryColor = Color(0xFF14AE5C);
+        secondaryColor = const Color(0xFF14AE5C);
         break;
       case "study":
-        secondaryColor = Color(0xFFCFC707);
+        secondaryColor = const Color(0xFFCFC707);
         break;
     }
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(modalAnimation(const Modal(pageName: 'taskPage')));
+            .push(modalAnimation(Modal(pageName: 'taskPage', task: task)));
       }, //go to completed task task_id
       child: Container(
           height: screenHeight * 0.25,
@@ -43,7 +59,7 @@ class GoalImageWidget extends StatelessWidget {
               ),
               borderRadius: BorderRadius.circular(10.0)),
           child: Image(
-            image: goalImage,
+            image: MemoryImage(goalImage),
             fit: BoxFit.cover,
           )),
     );

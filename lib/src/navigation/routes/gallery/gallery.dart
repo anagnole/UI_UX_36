@@ -14,35 +14,6 @@ class GalleryPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // List<GoalImageWidget> widgetList = [
-    //   GoalImageWidget(
-    //     task_id: 1,
-    //     category: 'fitness',
-    //     goalImage: AssetImage('assets/images/test_image.jpg'),
-    //   ),
-    //   GoalImageWidget(
-    //     task_id: 1,
-    //     category: 'fitness',
-    //     goalImage: AssetImage('assets/images/test_image.jpg'),
-    //   ),
-    //   GoalImageWidget(
-    //     task_id: 1,
-    //     category: 'fitness',
-    //     goalImage: AssetImage('assets/images/test_image.jpg'),
-    //   ),
-    //   GoalImageWidget(
-    //     task_id: 1,
-    //     category: 'fitness',
-    //     goalImage: AssetImage('assets/images/test_image.jpg'),
-    //   ),
-    //   GoalImageWidget(
-    //     task_id: 1,
-    //     category: 'fitness',
-    //     goalImage: AssetImage('assets/images/test_image.jpg'),
-    //   ),
-
-    //   // Add more widgets as needed
-    // ];
     List<GoalImageWidget> widgetList = [];
 
     return Scaffold(
@@ -60,9 +31,7 @@ class GalleryPage extends StatelessWidget {
               print('taks' + tasks.length.toString());
               for (Task a in tasks) {
                 widgetList.add(GoalImageWidget(
-                    task_id: a.id,
-                    goalImage: MemoryImage(a.picture),
-                    category: a.category));
+                   task: a));
               }
               return Column(
                 children: [

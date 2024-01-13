@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
-import 'package:snapgoals_v2/src/modal/modal.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/create_goal.dart';
 import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
@@ -32,22 +31,22 @@ class GoalsPage extends StatelessWidget {
               return tasks.isEmpty
                   ? const Center(child: Text('No Goals'))
                   : Padding(
-                    padding: const EdgeInsets.only(left:25.0, top: 20),
-                    child: ListView.separated(
-                        itemBuilder: (context, index) {
-                          final task = tasks[index];
-                          //appState.tasks.add(task);
+                      padding: const EdgeInsets.only(left: 25.0, top: 20),
+                      child: ListView.separated(
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            //appState.tasks.add(task);
 
-                    
-                          return ElevatedButton(onPressed: () {
-                            Navigator.of(context).push(modalAnimation(Modal(pageName:"taskPage", task: task )));
-                          }, child: TaskWidget(task_id: task.id, category: task.category, title: task.title));
-                        },
-                        separatorBuilder: (context, index) => const SizedBox(
-                              height: 12,
-                            ),
-                        itemCount: tasks.length),
-                  );
+                            return TaskWidget(
+                                task_id: task.id,
+                                category: task.category,
+                                title: task.title);
+                          },
+                          separatorBuilder: (context, index) => const SizedBox(
+                                height: 12,
+                              ),
+                          itemCount: tasks.length),
+                    );
             }
           },
         ),
@@ -65,7 +64,6 @@ class GoalsPage extends StatelessWidget {
                 //if (!mounted) return;
                 appState.fetchTasks();
                 appState.notify();
-
                 //Navigator.of(context).pop();
               }),
             ));
