@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/Widgets/Stat_box.dart';
 import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
@@ -9,18 +10,16 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   late TextEditingController _nameController;
   bool _isEditing = false;
-  late String _userName = 'John Doe'; // Replace with the initial user name
 
   @override
   void initState() {
     super.initState();
-    _nameController = TextEditingController(text: _userName);
   }
 
   @override
@@ -35,16 +34,20 @@ class _ProfilePageState extends State<ProfilePage> {
     });
   }
 
-  void _endEditing() {
+  Future<void> _endEditing(String newText) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('name', newText);
     setState(() {
       _isEditing = false;
-      _userName = _nameController.text;
+      _nameController = TextEditingController(text: newText);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
+    _nameController = TextEditingController(text: appState.name);
+
     appState.fetchNonCompletedTasks();
     appState.fetchCompletedTasks();
     appState.totalTasksByCategory();
@@ -120,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        _userName,
+                                        appState.name!,
                                         style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.white,
@@ -138,7 +141,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       if (_isEditing)
                         ElevatedButton(
-                          onPressed: _endEditing,
+                          onPressed: () async {
+                            await _endEditing(_nameController.text);
+                            appState.name = _nameController.text;
+
+                            appState.notify();
+                          },
                           child: const Text('Save'),
                         ),
                       const SizedBox(height: 24),
@@ -151,7 +159,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: CircularProgressIndicator(),
                               );
                             } else {
-                              //appState.snapgoalsDB.deleteAll(); //
                               final tasks = snapshot.data!;
                               int length1 = tasks.length;
                               return StatBox(stat: 'Goals Completed: $length1');
@@ -167,7 +174,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: CircularProgressIndicator(),
                               );
                             } else {
-                              //appState.snapgoalsDB.deleteAll(); //
                               final tasks = snapshot.data!;
                               int length1 = tasks.length;
                               return StatBox(stat: 'Goals Remaining: $length1');
@@ -183,7 +189,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                 child: CircularProgressIndicator(),
                               );
                             } else {
-                              //appState.snapgoalsDB.deleteAll(); //
                               final sums = snapshot.data!;
                               int fitness = sums[0];
                               int social = sums[1];

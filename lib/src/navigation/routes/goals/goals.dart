@@ -24,7 +24,7 @@ class GoalsPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else {
-              //appState.snapgoalsDB.deleteAll(); //
+              //appState.snapgoalsDB.deleteAll();//
 
               final tasks = snapshot.data!;
 
@@ -56,7 +56,6 @@ class GoalsPage extends StatelessWidget {
             Navigator.of(context).push(modalAnimation(
               CreateGoal(
                   onSubmit: (title, category, picture, description) async {
-                print('reeeeeee');
                 await appState.snapgoalsDB.create(
                     title: title,
                     category: category,

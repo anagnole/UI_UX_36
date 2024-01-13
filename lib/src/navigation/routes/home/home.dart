@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/navigation/routes/home/widgets/pie_chart.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,27 +25,38 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+    bool isNameInitialized = appState.name != null;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Column(
         children: [
-          FutureBuilder<String>(
-            future: _name,
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                case ConnectionState.waiting:
-                  return const CircularProgressIndicator();
-                case ConnectionState.active:
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    return Text('Hello ${snapshot.data}!');
-                  }
-              }
-            },
-          ),SizedBox(height: MediaQuery.of(context).size.height*0.1,),
+          isNameInitialized
+              ? Text('Hello ${appState.name}!')
+              : FutureBuilder<String>(
+                  future: _name,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                        return const CircularProgressIndicator();
+                      case ConnectionState.active:
+                      case ConnectionState.done:
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          appState.name = snapshot.data!;
+
+                          return Text('Hello ${appState.name}!');
+                        }
+                    }
+                  },
+                ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.1,
+          ),
           Center(child: const PieChartWidget()),
         ],
       ),
