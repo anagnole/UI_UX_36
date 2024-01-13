@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
-import 'package:snapgoals_v2/src/navigation/routes/gallery/widgets/picture.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/create_goal.dart';
 import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/task_widget.dart';
 
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 

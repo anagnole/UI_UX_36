@@ -111,8 +111,9 @@ class _CameraViewPageState extends State<CameraScreen> {
                 child: IconButton(
                   iconSize: 24.0,
                   icon: Image.asset('assets/images/shutter_button.png'),
-                  onPressed: () {
-                    _takePictureAndSave(context, taskId, db);
+                  onPressed: () async {
+                    await _takePictureAndSave(context, taskId, db);
+                    appState.notify();
                     Navigator.of(context).pop();
                   },
                 ),
@@ -155,11 +156,11 @@ class _CameraViewPageState extends State<CameraScreen> {
         final int index = label.index;
         final double confidence = label.confidence;
         print(text);
+        print(index);
         print(confidence);
         // Use the results...
       }
       imageLabeler.close();
-      // You can now use newImagePath as the path to the saved image
       print('Image saved at: $newImagePath');
     } catch (e) {
       print('Error taking picture: $e');
