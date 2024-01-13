@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/Widgets/Stat_box.dart';
+import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/src/app_state.dart';
+
+import 'dart:math';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -40,6 +44,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+    appState.fetchNonCompletedTasks(); 
+    appState.fetchCompletedTasks();
+    appState.totalTasksByCategory();
+
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(24.0),
@@ -133,11 +142,80 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: const Text('Save'),
                         ),
                       const SizedBox(height: 24),
-                      const StatBox(stat: "Goals Completed"),
+                      FutureBuilder(future: appState.futureCompletedTasks,
+                        builder: (context,snapshot) {
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );}
+                          else{
+                            final tasks = snapshot.data!;
+                            int  length1=tasks.length;
+                          return  StatBox(stat: 'Goals Completed: $length1');}
+                        }
+                      ),
+                      const SizedBox(height: 24),FutureBuilder(future: appState.futureNonCompletedTasks,
+                        builder: (context,snapshot) {
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );}
+                          else{
+                            final tasks = snapshot.data!;
+                            int  length1=tasks.length;
+                          return  StatBox(stat: 'Goals Remaining: $length1');}
+                        }
+                      ),
                       const SizedBox(height: 24),
-                      const StatBox(stat: "Goals Remaining"),
-                      const SizedBox(height: 24),
-                      const StatBox(stat: "Top Category"),
+                      FutureBuilder(future: appState.futureTaskNumByCategory,
+                        builder: (context,snapshot) {
+
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );}
+                          else{
+                            final sums = snapshot.data!;
+                            int  fitness=sums[0];
+                            int social=sums[1];
+                            int study=sums[2];
+
+
+                            int top=max(fitness,max(social,study));
+                            String out="";
+                            if (top==fitness && top==social && top==study){
+                              if (top==0){
+                                 out='Top Category: None, complete more tasks';
+                              }
+                              else{
+                               out="Top Category: All of them";}
+                            }
+                            else if (top==fitness && top==social){
+                                 out="Top Category: Fitness and Social";
+                              }
+                            
+                            else if (top==fitness && top==study){
+                                 out="Top Category: Fitness and Study";
+                              }
+                            else if (top==study && top==social){
+                                 out="Top Category: Social and Study";
+                              }
+                            else if (top==study){
+                               out = "Top Category: Study";
+                            }
+                            else if (top==fitness){
+                               out = "Top Category: Fitness";
+                            }
+                            else if (top==social){
+                               out = "Top Category: Social";
+                            }
+                            
+                            
+                          return  StatBox(stat: out);}
+                        }
+                      ),
                     ],
                   ))
             ],

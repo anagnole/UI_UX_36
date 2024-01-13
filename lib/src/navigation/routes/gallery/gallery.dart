@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/modal/modal.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/failure_Popup.dart';
-import 'package:snapgoals_v2/src/navigation/routes/camera/success_Popup.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'widgets/picture.dart';
@@ -13,27 +12,27 @@ class GalleryPage extends StatelessWidget {
     List<GoalImageWidget> widgetList = [
       GoalImageWidget(
         task_id: 1,
-        borderColor: const Color.fromARGB(255, 39, 38, 35),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Colors.yellow,
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Color.fromARGB(255, 29, 24, 179),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: Color.fromARGB(255, 223, 65, 21),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       GoalImageWidget(
         task_id: 1,
-        borderColor: const Color.fromARGB(255, 72, 65, 2),
+        category: 'fitness',
         goalImage: AssetImage('assets/images/test_image.jpg'),
       ),
       // Add more widgets as needed
@@ -59,16 +58,15 @@ class GalleryPage extends StatelessWidget {
                       SizedBox(width: screenWidth * 0.05),
                       InkWell(
                         onTap: () {
-                          showSuccessPopup(context);
-                          Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                          print('giorgio');
+                          Navigator.of(context).push(modalAnimation(
+                              const Modal(pageName: 'taskPage')));
+                          
                         },
                         child: InkResponse(
                           onTap: () {
-                            showSuccessPopup(context);
-                            Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                            Navigator.of(context).push(modalAnimation(
+                                const Modal(pageName: 'taskPage')));
                             // Handle tap as needed
-                            print('giorgio');
                           },
                           child: Card(
                             elevation: 20.0,
@@ -100,17 +98,35 @@ class GalleryPage extends StatelessWidget {
                               highlightShape: BoxShape.rectangle,
                             ),
                           ),
+
+                          // InkWell(
+                          //   onTap: () {
+                          //     print('giorgio');
+                          //   },
+                          //   child: InkResponse(
+                          //     onTap: () {
+                          //       Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                          //       // Handle tap as needed
+                          //       print('giorgio');
+                          //     },
+                          //     child: Card(
+                          //       elevation: 20.0,
+                          //       child: widgetList[2 * index],
+                          //     ),
+                          //     highlightShape: BoxShape.rectangle,
+                          //   ),
+                          // ),
                           SizedBox(width: screenWidth * 0.1),
                           InkWell(
                             onTap: () {
-                              showSuccessPopup(context);
-                              //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                              
+                              Navigator.of(context).push(modalAnimation(
+                                  const Modal(pageName: 'taskPage')));                             
                             },
                             child: InkResponse(
                               onTap: () {
-                                showSuccessPopup(context);
-                                 //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));                               
+                                Navigator.of(context).push(modalAnimation(
+                                    const Modal(pageName: 'taskPage')));
+                                // Handle tap as needed
                               },
                               child: Card(
                                 elevation: 20,
