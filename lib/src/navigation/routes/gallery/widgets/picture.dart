@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/appbar_etc.dart';
+import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
+
+import 'package:snapgoals_v2/src/modal/modal.dart';
 
 class GoalImageWidget extends StatelessWidget {
   final ImageProvider goalImage;
@@ -7,9 +10,7 @@ class GoalImageWidget extends StatelessWidget {
   final int task_id;
 
   GoalImageWidget(
-      {required this.task_id,
-      required this.goalImage,
-      required this.category});
+      {required this.task_id, required this.goalImage, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -18,20 +19,20 @@ class GoalImageWidget extends StatelessWidget {
     Color secondaryColor = Colors.black;
     switch (category) {
       case "fitness":
-        
         secondaryColor = Color(0xFFFF7556);
         break;
       case "social":
-        
         secondaryColor = Color(0xFF14AE5C);
         break;
       case "study":
-        
         secondaryColor = Color(0xFFCFC707);
         break;
     }
     return GestureDetector(
-      onTap: () {}, //go to completed task task_id
+      onTap: () {
+        Navigator.of(context)
+            .push(modalAnimation(const Modal(pageName: 'taskPage')));
+      }, //go to completed task task_id
       child: Container(
           height: screenHeight * 0.25,
           width: screenWidth * 0.4,

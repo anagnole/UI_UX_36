@@ -8,31 +8,28 @@ class PieChartWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     var appState = context.watch<AppState>();
     appState.totalTasksByCategory();
-    
 
-    return FutureBuilder<List<int>>(future: appState.futureTaskNumByCategory,
-     builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              //appState.snapgoalsDB.deleteAll();//
-             
-              final sums = snapshot.data!;
+    return FutureBuilder<List<int>>(
+        future: appState.futureTaskNumByCategory,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            //appState.snapgoalsDB.deleteAll(); //
 
+            final sums = snapshot.data!;
 
-              List<charts.Series<ChartData, String>> seriesList = [
+            List<charts.Series<ChartData, String>> seriesList = [
               charts.Series<ChartData, String>(
                 id: 'Categories',
                 domainFn: (ChartData data, _) => data.category,
                 measureFn: (ChartData data, _) => data.value,
-                colorFn: (ChartData data, _) =>
-                    charts.ColorUtil.fromDartColor(_getColorForCategory(data.category)),
+                colorFn: (ChartData data, _) => charts.ColorUtil.fromDartColor(
+                    _getColorForCategory(data.category)),
                 data: [
                   ChartData('Fitness', sums[0]),
 
@@ -42,35 +39,34 @@ class PieChartWidget extends StatelessWidget {
                 ],
               )
             ];
-              if (sums[0]+sums[1]+sums[2]==0){
-                return Text("you have not completed any tasks yet");
-              }
-              else{
-                var chart=charts.PieChart(
+            if (sums[0] + sums[1] + sums[2] == 0) {
+              return Text("you have not completed any tasks yet");
+            } else {
+              var chart = charts.PieChart(
                 seriesList,
-                animate: true,  
+                animate: true,
               );
               return Stack(
-      children: [
-        SizedBox(
-          height: 300,
-          width: 300,
-          child: chart,
-        ),
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Image.asset(
-            'assets/images/chart_ring.png',
-            height: 300,
-            width: 300,
-          ),
-        ),
-      ],
-    ); }}});
-
-
-
+                children: [
+                  SizedBox(
+                    height: 300,
+                    width: 300,
+                    child: chart,
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Image.asset(
+                      'assets/images/chart_ring.png',
+                      height: 300,
+                      width: 300,
+                    ),
+                  ),
+                ],
+              );
+            }
+          }
+        });
   }
 
   Color _getColorForCategory(String category) {
