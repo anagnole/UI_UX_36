@@ -35,7 +35,7 @@ class _ModalState extends State<Modal> {
         page = const TaskPage();
 
         break;
-        
+
       default:
         throw UnimplementedError('no widget for $pageName');
     }
@@ -45,7 +45,7 @@ class _ModalState extends State<Modal> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/background.png'),
+            image: AssetImage('assets/images/b ackground.png'),
             fit: BoxFit.cover,
           ),
         ),

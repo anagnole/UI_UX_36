@@ -28,7 +28,10 @@ class DatabaseService {
       onCreate: create,
       singleInstance: true,
     );
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    await prefs.setString('name', 'George');
+    await prefs.setBool('hasCompletedOnBoarding', false);
     await SnapgoalsDB().createTable(database);
 
     return database;
@@ -38,6 +41,8 @@ class DatabaseService {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setString('name', 'George');
+    await prefs.setBool('hasCompletedOnBoarding', false);
+
     await SnapgoalsDB().createTable(database);
   }
 }

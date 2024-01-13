@@ -60,7 +60,6 @@ class GalleryPage extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(modalAnimation(
                               const Modal(pageName: 'taskPage')));
-                          
                         },
                         child: InkResponse(
                           onTap: () {
@@ -84,12 +83,11 @@ class GalleryPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: () {
-                            },
+                            onTap: () {},
                             child: InkResponse(
                               onTap: () {
                                 showFailurePopup(context);
-                                //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));                               
+                                //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
                               },
                               child: Card(
                                 elevation: 20.0,
@@ -116,11 +114,11 @@ class GalleryPage extends StatelessWidget {
                           //     highlightShape: BoxShape.rectangle,
                           //   ),
                           // ),
-                          SizedBox(width: screenWidth * 0.1),
+                          //SizedBox(width: screenWidth * 0.1),
                           InkWell(
                             onTap: () {
                               Navigator.of(context).push(modalAnimation(
-                                  const Modal(pageName: 'taskPage')));                             
+                                  const Modal(pageName: 'taskPage')));
                             },
                             child: InkResponse(
                               onTap: () {

@@ -7,6 +7,7 @@ import 'package:snapgoals_v2/src/appbar_etc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
+import 'package:google_ml_kit/google_ml_kit.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -112,7 +113,7 @@ class _CameraViewPageState extends State<CameraScreen> {
                   icon: Image.asset('assets/images/shutter_button.png'),
                   onPressed: () {
                     _takePictureAndSave(context, taskId, db);
-                   Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                 ),
               ),
@@ -132,6 +133,7 @@ class _CameraViewPageState extends State<CameraScreen> {
     try {
       XFile? image = await _controller.takePicture();
       Uint8List imageBytes = await image.readAsBytes();
+
       db.update(id: taskId, picture: imageBytes);
 
       // Get the project's directory
@@ -143,7 +145,20 @@ class _CameraViewPageState extends State<CameraScreen> {
       final String newImagePath =
           '$appPath/image_${DateTime.now().millisecondsSinceEpoch}.png';
       await newImage.copy(newImagePath);
+      final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
 
+      final InputImage inputImage = InputImage.fromFilePath(newImagePath);
+      final List<ImageLabel> labels =
+          await imageLabeler.processImage(inputImage);
+      for (ImageLabel label in labels) {
+        final String text = label.label;
+        final int index = label.index;
+        final double confidence = label.confidence;
+        print(text);
+        print(confidence);
+        // Use the results...
+      }
+      imageLabeler.close();
       // You can now use newImagePath as the path to the saved image
       print('Image saved at: $newImagePath');
     } catch (e) {
