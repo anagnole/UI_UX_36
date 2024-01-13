@@ -5,6 +5,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppState extends ChangeNotifier {
   Future<List<Task>>? futureTasks;
+
+  Future<List<Task>>? futureNonCompletedTasks;
+  Future<List<Task>>? futureCompletedTasks;
+  Future<List<int>>? futureTaskNumByCategory;
+
   Future<int>? futureTaskNum;
   Future<SharedPreferences>? prefs = SharedPreferences.getInstance();
 
@@ -12,6 +17,18 @@ class AppState extends ChangeNotifier {
 
   void fetchTasks() {
     futureTasks = snapgoalsDB.fetchAll();
+  }
+
+  void fetchNonCompletedTasks() {
+    futureNonCompletedTasks = snapgoalsDB.fetchNonCompleted();
+  }
+
+  void fetchCompletedTasks() {
+    futureCompletedTasks = snapgoalsDB.fetchCompleted();
+  }
+
+  void totalTasksByCategory() {
+    futureTaskNumByCategory = snapgoalsDB.taskNumByCategory(); //completed tasks mono
   }
 
   void totalTasks() {

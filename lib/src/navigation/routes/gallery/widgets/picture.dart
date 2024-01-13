@@ -19,11 +19,11 @@ class GoalImageWidget extends StatelessWidget {
     switch (category) {
       case "fitness":
         
-        secondaryColor = Color.fromARGB(255, 9, 8, 7);
+        secondaryColor = Color(0xFFFF7556);
         break;
       case "social":
         
-        secondaryColor = Color(0xFFFF7556);
+        secondaryColor = Color(0xFF14AE5C);
         break;
       case "study":
         
