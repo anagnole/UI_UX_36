@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SuccessPopup extends StatelessWidget{
+class SuccessPopup extends StatelessWidget {
   final String title;
   final String content;
   final String button1;
@@ -19,25 +19,30 @@ class SuccessPopup extends StatelessWidget{
   });
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: const Color.fromRGBO(175, 244, 198, 0),
+      backgroundColor: const Color.fromARGB(255, 175, 244, 198),
       title: Text(title),
       content: Text(content),
       actions: [
-        TextButton(onPressed: onButton1Pressed,
-        child: Text(button1) ),
-        TextButton(onPressed: onButton2Pressed,
-        child: Text(button2)
-        )
+        TextButton(
+          onPressed: onButton1Pressed,
+          child: Text(button1),
+        ),
+        TextButton(
+          onPressed: onButton2Pressed,
+          child: Text(button2),
+        ),
       ],
     );
   }
 }
 
-void showSuccessPopup(BuildContext context){
+
+void showSuccessPopup(BuildContext context) {
   const String customDialogTitle = "Success";
-  const String customDialogContent = "Congratulations for completing the task. Now you can either go to the home page or return to goals.";
+  const String customDialogContent =
+      "Congratulations for completing the task. Now you can either go to the home page or return to goals.";
   const String customButton1Text = "Home";
   const String customButton2Text = "Goals";
 
@@ -50,12 +55,13 @@ void showSuccessPopup(BuildContext context){
         button1: customButton1Text,
         button2: customButton2Text,
         onButton1Pressed: () {
-          // Handle Button 1 Pressed
-          Navigator.pop(context);
+            Navigator.pop(context);
+            Navigator.pushReplacementNamed(context, '/');
         },
         onButton2Pressed: () {
           // Handle Button 2 Pressed
           Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, '/goals');
         },
       );
     },

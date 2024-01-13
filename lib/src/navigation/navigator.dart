@@ -6,7 +6,11 @@ import 'package:snapgoals_v2/src/navigation/routes/home/home.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
 
 class MyNavigator extends StatefulWidget {
-  const MyNavigator({super.key});
+  final int index;
+  const MyNavigator({
+    super.key,
+    required this.index
+  });
 
   @override
   State<MyNavigator> createState() => _MyNavigatorState();
@@ -82,6 +86,12 @@ class _MyNavigatorState extends State<MyNavigator> {
         }
         break;
     }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    currentPageIndex = widget.index;
   }
 
   @override

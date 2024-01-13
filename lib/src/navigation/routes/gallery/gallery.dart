@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/modal/modal.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/failure_Popup.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/success_Popup.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'widgets/picture.dart';
@@ -57,11 +59,13 @@ class GalleryPage extends StatelessWidget {
                       SizedBox(width: screenWidth * 0.05),
                       InkWell(
                         onTap: () {
+                          showSuccessPopup(context);
                           Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
                           print('giorgio');
                         },
                         child: InkResponse(
                           onTap: () {
+                            showSuccessPopup(context);
                             Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
                             // Handle tap as needed
                             print('giorgio');
@@ -83,13 +87,11 @@ class GalleryPage extends StatelessWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              print('giorgio');
                             },
                             child: InkResponse(
                               onTap: () {
-                                Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                                // Handle tap as needed
-                                print('giorgio');
+                                showFailurePopup(context);
+                                //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));                               
                               },
                               child: Card(
                                 elevation: 20.0,
@@ -101,14 +103,14 @@ class GalleryPage extends StatelessWidget {
                           SizedBox(width: screenWidth * 0.1),
                           InkWell(
                             onTap: () {
-                              Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                              print('giorgio');
+                              showSuccessPopup(context);
+                              //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
+                              
                             },
                             child: InkResponse(
                               onTap: () {
-                                 Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));
-                                // Handle tap as needed
-                                print('giorgio');
+                                showSuccessPopup(context);
+                                 //Navigator.of(context).push(modalAnimation(const Modal(pageName: 'taskPage')));                               
                               },
                               child: Card(
                                 elevation: 20,

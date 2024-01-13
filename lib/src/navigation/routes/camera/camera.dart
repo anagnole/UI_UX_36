@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
@@ -113,7 +112,7 @@ class _CameraViewPageState extends State<CameraScreen> {
                   icon: Image.asset('assets/images/shutter_button.png'),
                   onPressed: () {
                     _takePictureAndSave(context, taskId, db);
-                    Navigator.of(context).pop();
+                   Navigator.of(context).pop();
                   },
                 ),
               ),

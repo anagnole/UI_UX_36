@@ -12,24 +12,28 @@ class MainApp extends StatelessWidget {
       create: (context) => AppState(),
       child: MaterialApp(
         theme: ThemeData(useMaterial3: true),
-        home: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/images/background.png'),
-              fit: BoxFit.cover,
+        initialRoute: '/',
+        routes: {
+          '/': (context) =>  Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.png'),
+                fit: BoxFit.cover,
+              ),
             ),
-            // return MaterialApp(
-            //   theme: ThemeData(useMaterial3: true),
-            //   home: Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     height: MediaQuery.of(context).size.height,
-            //     decoration: const BoxDecoration(
-            //       image: DecorationImage(
-            //         image: AssetImage('assets/images/background.png'),
-            //         fit: BoxFit.fill,
+            child: const MyNavigator(index: 1),           
           ),
-          child: const MyNavigator(),
-        ),
+          '/goals':(context) => Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/background.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: const MyNavigator(index: 2),           
+          ),
+        },
+
       ),
     );
   }

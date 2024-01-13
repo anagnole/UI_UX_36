@@ -21,7 +21,7 @@ class FailurePopup extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return AlertDialog(
-      backgroundColor: const Color.fromRGBO(247, 203, 199, 0),
+      backgroundColor: const Color.fromARGB(255, 247, 203, 199),
       title: Text(title),
       content: Text(content),
       actions: [
@@ -35,7 +35,7 @@ class FailurePopup extends StatelessWidget{
   }
 }
 
-void showSuccessPopup(BuildContext context){
+void showFailurePopup(BuildContext context){
   const String customDialogTitle = "Failure";
   const String customDialogContent = "You can retake the photo or complete the goal manually.";
   const String customButton1Text = "Retake";
@@ -56,6 +56,7 @@ void showSuccessPopup(BuildContext context){
         onButton2Pressed: () {
           // Handle Button 2 Pressed
           Navigator.pop(context);
+          Navigator.pushReplacementNamed(context, '/goals');
         },
       );
     },
