@@ -21,12 +21,13 @@ class TaskWidget extends StatelessWidget {
     Color secondaryColor = Colors.black;
     switch (category) {
       case "fitness":
-        boxColor = Color(0xFFAFF4C6);
-        secondaryColor = Color(0xFF14AE5C);
-        break;
-      case "social":
         boxColor = Color(0xFFFFC7C2);
         secondaryColor = Color(0xFFFF7556);
+        break;
+      case "social":
+        boxColor = Color(0xFFAFF4C6);
+        secondaryColor = Color(0xFF14AE5C);
+
         break;
       case "study":
         boxColor = Color(0xFFFFFCBD);

@@ -72,7 +72,7 @@ class SnapgoalsDB {
 
   for (String value in ['fitness','social','study']) {
     final List<Map<String, dynamic>> result = await database.rawQuery(
-      '''SELECT COUNT(*) as count FROM $tableName WHERE category = ? and picture = ?''',
+      '''SELECT COUNT(*) as count FROM $tableName WHERE category = ? and picture != ?''',
       [value,Uint8List(0)],
     );
 
