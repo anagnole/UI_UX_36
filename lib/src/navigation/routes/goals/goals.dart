@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
+import 'package:snapgoals_v2/src/modal/modal.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/create_goal.dart';
 import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
@@ -36,9 +37,11 @@ class GoalsPage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final task = tasks[index];
                           //appState.tasks.add(task);
-                          
+
                     
-                          return TaskWidget(task_id: task.id, category: task.category, title: task.title);
+                          return ElevatedButton(onPressed: () {
+                            Navigator.of(context).push(modalAnimation(Modal(pageName:"taskPage", task: task )));
+                          }, child: TaskWidget(task_id: task.id, category: task.category, title: task.title));
                         },
                         separatorBuilder: (context, index) => const SizedBox(
                               height: 12,
@@ -54,7 +57,6 @@ class GoalsPage extends StatelessWidget {
             Navigator.of(context).push(modalAnimation(
               CreateGoal(
                   onSubmit: (title, category, picture, description) async {
-                print('reeeeeee');
                 await appState.snapgoalsDB.create(
                     title: title,
                     category: category,
@@ -63,6 +65,7 @@ class GoalsPage extends StatelessWidget {
                 //if (!mounted) return;
                 appState.fetchTasks();
                 appState.notify();
+
                 //Navigator.of(context).pop();
               }),
             ));
