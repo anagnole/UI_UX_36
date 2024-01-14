@@ -81,15 +81,34 @@ class SnapgoalsDB {
       'Cappucino'
     ];
 
-    arrayFitness.map((word) async {
-      return await database.rawInsert(
+    for (String word in arrayFitness) {
+      await database.rawInsert(
         '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
         [
           word,
           'fitness',
         ],
       );
-    });
+    }
+    for (String word in arraySocial) {
+      await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'social',
+        ],
+      );
+    }
+    for (String word in arrayStudy) {
+      await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'study',
+        ],
+      );
+    }
+
     arrayStudy.map((word) async {
       return await database.rawInsert(
         '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
@@ -108,18 +127,6 @@ class SnapgoalsDB {
         ],
       );
     });
-  }
-
-  Future<int> fillKeyWords(
-      {required String word, required String category}) async {
-    final database = await DatabaseService().database;
-    return await database.rawInsert(
-      '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-      [
-        word,
-        category,
-      ],
-    );
   }
 
   Future<int> createTask({
@@ -153,8 +160,6 @@ class SnapgoalsDB {
 
   Future<List<KeyWord>> fetchCategoryKeyWords(
       {required String category}) async {
-    print('REEEEEEEEEEEEEE');
-
     final database = await DatabaseService().database;
     final keyWords = await database.rawQuery(
         '''SELECT * FROM $tableKeyWords WHERE category = ? ''', [category]);
