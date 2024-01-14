@@ -26,19 +26,15 @@ class CreateGoal extends StatefulWidget {
 
 class _CreateGoal extends State<CreateGoal> {
   final controllerTitle = TextEditingController();
-  final controllerDesctipion = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final formKey2 = GlobalKey<FormState>();
 
   final FocusNode textFocusNode = FocusNode();
   bool titleEmpty = false;
-  
 
   @override
   void initState() {
     super.initState();
     controllerTitle.text = widget.task?.title ?? '';
-    controllerDesctipion.text = widget.task?.title ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
       textFocusNode.requestFocus();
     });
@@ -56,7 +52,6 @@ class _CreateGoal extends State<CreateGoal> {
   Widget build(BuildContext context) {
     var appState = context.watch<AppState>();
     appState.fetchKeyWordsByCategory(_selectedCategory);
-    //Future<List<KeyWord>>? futureKeyWords = appState.futureKeyWordsByCategory;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -137,51 +132,30 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               const SizedBox(height: 10),
-              /*const Text(
-                'Description',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              FutureBuilder<List<KeyWord>>(
-                future: appState.futureKeyWordsByCategory,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    final keyWords = snapshot.data!;
-                    return Text(keyWords[0].word);
-                    //return keyWords.map((key) => Text(key.word));
-                  } else {
-                    // Otherwise, display a loading indicator
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
-              Form(
-                key: formKey2,
-                child: TextField(
-                  controller: controllerDesctipion,
-                  maxLines: 3,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Enter task description',
-                    filled: true,
-                    fillColor: Color.fromARGB(102, 255, 255, 255),
-                  ),
-                ),
-              ),*/
               const Text(
                 'Select Keywords',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              const FilterChipExample(),
-            
+              FutureBuilder<List<KeyWord>>(
+                future: appState.futureKeyWordsByCategory,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final keyWords = snapshot.data!;
 
+                    return FilterChipExample(keyWords: keyWords);
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
               const SizedBox(height: 27),
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       widget.onSubmit(controllerTitle.text, _selectedCategory,
-                          Uint8List(0), []);
+                          Uint8List(0), appState.chosenKeyWords);
                       Navigator.of(context).pop();
                     }
                   },
@@ -207,51 +181,3 @@ class _CreateGoal extends State<CreateGoal> {
     );
   }
 }
-
-// class AlertCreateGoal extends StatelessWidget {
-//   const AlertCreateGoal({
-//     super.key,
-//     required this.isEditing,
-//     required this.formKey,
-//     required this.textFocusNode,
-//     required this.controller,
-//     required this.widget,
-//   });
-
-//   final bool isEditing;
-//   final GlobalKey<FormState> formKey;
-//   final FocusNode textFocusNode;
-//   final TextEditingController controller;
-//   final CreateGoal widget;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return AlertDialog(
-//         title: Text(isEditing ? 'Edit Goal' : 'Add Goal'),
-//         content: Form(
-//           key: formKey,
-//           child: TextFormField(
-//             autofocus: true,
-//             focusNode: textFocusNode,
-//             controller: controller,
-//             decoration: const InputDecoration(hintText: 'Title'),
-//             validator: (value) =>
-//                 value != null && value.isEmpty ? 'Title is required' : null,
-//           ),
-//         ),
-//         actions: [
-//           TextButton(
-//             onPressed: () => Navigator.pop(context),
-//             child: const Text('Cancel'),
-//           ),
-//           TextButton(
-//             onPressed: () {
-//               if (formKey.currentState!.validate()) {
-//                 widget.onSubmit(controller.text);
-//               }
-//             },
-//             child: const Text('OK'),
-//           )
-//         ]);
-//   }
-// }

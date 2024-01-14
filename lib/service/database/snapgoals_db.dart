@@ -13,6 +13,8 @@ class SnapgoalsDB {
 
   Future<void> createTable(Database database) async {
     //await database.execute("DROP TABLE $tableName;");
+    //await database.execute("DROP TABLE $tableKeyWords;");
+
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
       "title" TEXT NOT NULL,
@@ -35,7 +37,7 @@ class SnapgoalsDB {
 
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableKeyWords (
       "id" INTEGER NOT NULL,
-      "word" TEXT NOT NULL,
+      "word" TEXT NOT NULL UNIQUE,
       "category" TEXT NOT NULL,
       PRIMARY KEY("id" AUTOINCREMENT)
     );""");

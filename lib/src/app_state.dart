@@ -14,12 +14,11 @@ class AppState extends ChangeNotifier {
   Future<List<KeyWord>>? futureKeyWordsByCategory;
   Future<SharedPreferences>? prefs = SharedPreferences.getInstance();
   String? name;
+  List<int> chosenKeyWords = [];
 
   final snapgoalsDB = SnapgoalsDB();
 
   void fetchKeyWordsByCategory(String category) {
-    print('appState');
-    print(category);
     futureKeyWordsByCategory =
         snapgoalsDB.fetchCategoryKeyWords(category: category);
   }
