@@ -10,7 +10,11 @@ class DatabaseService {
     if (_database != null) {
       return _database!;
     }
-    _database = await _initialize();
+    _database = await _initialize().catchError((error) {
+      // Handle any initialization errors here
+      print('Database initialization error: $error');
+    });
+
     return _database!;
   }
 
@@ -28,10 +32,11 @@ class DatabaseService {
       onCreate: create,
       singleInstance: true,
     );
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('name', 'George');
-    await prefs.setBool('hasCompletedOnBoarding', false);
-    await SnapgoalsDB().createTable(database);
+    //final SharedPreferences prefs = await SharedPreferences.getInstance();
+    //await prefs.setString('name', 'George');
+    print('ooooooooo');
+    //await prefs.setBool('hasCompletedOnBoarding', false);
+    //await SnapgoalsDB().createTable(database);
 
     return database;
   }

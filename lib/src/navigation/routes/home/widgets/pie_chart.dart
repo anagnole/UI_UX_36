@@ -20,7 +20,6 @@ class PieChartWidget extends StatelessWidget {
             );
           } else {
             //appState.snapgoalsDB.deleteAll(); //
-
             final sums = snapshot.data!;
 
             List<charts.Series<ChartData, String>> seriesList = [

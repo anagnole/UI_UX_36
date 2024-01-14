@@ -10,11 +10,14 @@ class SnapgoalsDB {
   final tableName = 'tasks';
   final tableKeyWords = 'keyWords';
   final relationship = 'relationship';
+  //final db = DatabaseService().database;
 
   Future<void> createTable(Database database) async {
+    print('aaaaaaaaaaaa');
     //await database.execute("DROP TABLE $tableName;");
     //await database.execute("DROP TABLE $tableKeyWords;");
-
+    // await database.rawDelete('''DELETE FROM $tableName''');
+    // await database.rawDelete('''DELETE FROM $tableKeyWords''');
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
       "title" TEXT NOT NULL,
@@ -83,52 +86,33 @@ class SnapgoalsDB {
       'Cappucino'
     ];
 
-    for (String word in arrayFitness) {
-      await database.rawInsert(
-        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-        [
-          word,
-          'fitness',
-        ],
-      );
-    }
-    for (String word in arraySocial) {
-      await database.rawInsert(
-        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-        [
-          word,
-          'social',
-        ],
-      );
-    }
-    for (String word in arrayStudy) {
-      await database.rawInsert(
-        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-        [
-          word,
-          'study',
-        ],
-      );
-    }
-
-    arrayStudy.map((word) async {
-      return await database.rawInsert(
-        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-        [
-          word,
-          'study',
-        ],
-      );
-    });
-    arraySocial.map((word) async {
-      return await database.rawInsert(
-        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-        [
-          word,
-          'social',
-        ],
-      );
-    });
+    // for (String word in arrayFitness) {
+    //   await database.rawInsert(
+    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+    //     [
+    //       word,
+    //       'fitness',
+    //     ],
+    //   );
+    // }
+    // for (String word in arraySocial) {
+    //   await database.rawInsert(
+    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+    //     [
+    //       word,
+    //       'social',
+    //     ],
+    //   );
+    // }
+    // for (String word in arrayStudy) {
+    //   await database.rawInsert(
+    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+    //     [
+    //       word,
+    //       'study',
+    //     ],
+    //   );
+    // }
   }
 
   Future<int> createTask({
@@ -157,6 +141,7 @@ class SnapgoalsDB {
     final keyWords = await database.rawQuery(
         '''SELECT key.id, key.word, key.category FROM $tableKeyWords as key INNER JOIN $relationship as r ON r.key_id = key.id WHERE r.task_id = ? ''',
         [taskId]);
+    print(keyWords.length);
     return keyWords.map((key) => KeyWord.fromSqfliteDatabase(key)).toList();
   }
 
@@ -185,6 +170,7 @@ class SnapgoalsDB {
 
   Future<List<Task>> fetchCompleted() async {
     final database = await DatabaseService().database;
+    //final database = await db;
     final tasks = await database.rawQuery(
         '''SELECT * FROM $tableName  WHERE completed = ? ORDER BY COALESCE(updated_at, created_at) ''',
         [1]);

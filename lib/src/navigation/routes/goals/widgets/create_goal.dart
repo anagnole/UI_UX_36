@@ -153,6 +153,7 @@ class _CreateGoal extends State<CreateGoal> {
               Center(
                 child: ElevatedButton.icon(
                   onPressed: () {
+                    appState.notify();
                     if (formKey.currentState!.validate()) {
                       widget.onSubmit(controllerTitle.text, _selectedCategory,
                           Uint8List(0), appState.chosenKeyWords);
