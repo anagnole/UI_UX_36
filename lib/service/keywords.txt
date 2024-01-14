@@ -1,0 +1,12 @@
+fitness = ['Bicycle', 'Stadium', 'Swimwear', 'Cycling', 'Soccer', 'Gymnastics', 'Musle', 'Pool', 'Running', 'Sports', 'Shoe', 'Swimming']
+
+social = ['Team', 'Cheeseburger', 'Beard', 'Park', 'Fast food', 'Eating', 'Person', 'Laugh', 'Nightclub', 'Dude', 'Menu', 'Cola', 'Coffee', 'food', 'Pizza','Cappucino']
+
+study = ['Computer', 'Chair', 'Desk', 'Web page', ]
+
+
+// extra keywords from tensorflow
+
+fitness = ['basketball', 'barbell', 'dumbbell', 'exercise bike', 'soccer ball', 'tennis ball', 'treadmill', 'voleyball']
+
+study = ['studying', 'notebook', 'library', 'laptop', 'desktop computer', 'monitor', 'computer keyboard']

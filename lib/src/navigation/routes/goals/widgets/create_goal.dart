@@ -1,8 +1,8 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/appbar_withx.dart';
+import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/filter_chip.dart';
 
 typedef OnSubmitCallback = void Function(
     String title, String category, Uint8List picture, String description);
@@ -29,11 +29,11 @@ class _CreateGoal extends State<CreateGoal> {
 
   final FocusNode textFocusNode = FocusNode();
   bool titleEmpty = false;
+  
 
   @override
   void initState() {
     super.initState();
-
     controllerTitle.text = widget.task?.title ?? '';
     controllerDesctipion.text = widget.task?.title ?? '';
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -131,7 +131,7 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               const SizedBox(height: 10),
-              const Text(
+              /*const Text(
                 'Description',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
@@ -148,7 +148,15 @@ class _CreateGoal extends State<CreateGoal> {
                     fillColor: Color.fromARGB(102, 255, 255, 255),
                   ),
                 ),
+              ),*/
+              const Text(
+                'Select Keywords',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              const SizedBox(height: 8),
+              const FilterChipExample(),
+            
+
               const SizedBox(height: 27),
               Center(
                 child: ElevatedButton.icon(
