@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
+import 'package:snapgoals_v2/service/models/key_word.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,10 +11,18 @@ class AppState extends ChangeNotifier {
   Future<List<Task>>? futureCompletedTasks;
   Future<List<int>>? futureTaskNumByCategory;
   Future<int>? futureTaskNum;
+  Future<List<KeyWord>>? futureKeyWordsByCategory;
   Future<SharedPreferences>? prefs = SharedPreferences.getInstance();
   String? name;
 
   final snapgoalsDB = SnapgoalsDB();
+
+  void fetchKeyWordsByCategory(String category) {
+    print('appState');
+    print(category);
+    futureKeyWordsByCategory =
+        snapgoalsDB.fetchCategoryKeyWords(category: category);
+  }
 
   void fetchTasks() {
     futureTasks = snapgoalsDB.fetchAll();
@@ -28,8 +37,7 @@ class AppState extends ChangeNotifier {
   }
 
   void totalTasksByCategory() {
-    futureTaskNumByCategory =
-        snapgoalsDB.taskNumByCategory(); //completed tasks mono
+    futureTaskNumByCategory = snapgoalsDB.taskNumByCategory();
   }
 
   void totalTasks() {

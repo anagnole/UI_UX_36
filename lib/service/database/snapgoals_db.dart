@@ -2,18 +2,20 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:snapgoals_v2/service/database/database_service.dart';
+import 'package:snapgoals_v2/service/models/key_word.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:sqflite/sqflite.dart';
 
 class SnapgoalsDB {
   final tableName = 'tasks';
+  final tableKeyWords = 'keyWords';
+  final relationship = 'relationship';
 
   Future<void> createTable(Database database) async {
     //await database.execute("DROP TABLE $tableName;");
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
       "id" INTEGER NOT NULL,
       "title" TEXT NOT NULL,
-      "description" TEXT NOT NULL,
       "category" TEXT NOT NULL,
       "picture" BLOB, 
       "completed" INTEGER NOT NULL,
@@ -21,25 +23,142 @@ class SnapgoalsDB {
       "updated_at" INTEGER,
       PRIMARY KEY("id" AUTOINCREMENT)
     );""");
+
+    await database.execute(""" CREATE TABLE IF NOT EXISTS $relationship (
+      "id" INTEGER NOT NULL,
+      "task_id" INTEGER NOT NULL,
+      "key_id" INTEGER NOT NULL,
+      FOREIGN KEY("key_id") REFERENCES $tableKeyWords("id"),
+      FOREIGN KEY("task_id") REFERENCES $tableName("id"),
+      PRIMARY KEY("id" AUTOINCREMENT)
+    );""");
+
+    await database.execute(""" CREATE TABLE IF NOT EXISTS $tableKeyWords (
+      "id" INTEGER NOT NULL,
+      "word" TEXT NOT NULL,
+      "category" TEXT NOT NULL,
+      PRIMARY KEY("id" AUTOINCREMENT)
+    );""");
+
+    List<String> arrayFitness = [
+      'Bicycle',
+      'Stadium',
+      'Swimwear',
+      'Cycling',
+      'Soccer',
+      'Gymnastics',
+      'Musle',
+      'Pool',
+      'Running',
+      'Sports',
+      'Shoe',
+      'Swimming'
+    ];
+    List<String> arrayStudy = [
+      'Computer',
+      'Chair',
+      'Desk',
+      'Web page',
+      'Paper'
+    ];
+    List<String> arraySocial = [
+      'Selfie',
+      'Team',
+      'Cheeseburger',
+      'Beard',
+      'Park',
+      'Fast food',
+      'Eating',
+      'Person',
+      'Laugh',
+      'Nightclub',
+      'Dude',
+      'Menu',
+      'Cola',
+      'Coffee',
+      'Food',
+      'Pizza',
+      'Cappucino'
+    ];
+
+    arrayFitness.map((word) async {
+      return await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'fitness',
+        ],
+      );
+    });
+    arrayStudy.map((word) async {
+      return await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'study',
+        ],
+      );
+    });
+    arraySocial.map((word) async {
+      return await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'social',
+        ],
+      );
+    });
   }
 
-  Future<int> create(
-      {required String title,
-      required String category,
-      required Uint8List picture,
-      String description = ''}) async {
+  Future<int> fillKeyWords(
+      {required String word, required String category}) async {
     final database = await DatabaseService().database;
     return await database.rawInsert(
-      '''INSERT INTO $tableName (title, category, picture, description, completed, created_at) VALUES (?,?,?,?,?,?)''',
+      '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
       [
-        title,
+        word,
         category,
-        picture,
-        description,
-        0,
-        DateTime.now().millisecondsSinceEpoch
       ],
     );
+  }
+
+  Future<int> createTask({
+    required String title,
+    required String category,
+    required Uint8List picture,
+    required List<int> keyIds,
+  }) async {
+    final database = await DatabaseService().database;
+    int taskId = await database.rawInsert(
+      '''INSERT INTO $tableName (title, category, picture, completed, created_at) VALUES (?,?,?,?,?)''',
+      [title, category, picture, 0, DateTime.now().millisecondsSinceEpoch],
+    );
+
+    keyIds.map((keyId) async {
+      await database.rawInsert(
+        '''INSERT INTO $relationship (task_id, key_id) VALUES (?,?)''',
+        [taskId, keyId],
+      );
+    });
+    return 0;
+  }
+
+  Future<List<KeyWord>> fetchTaskKeyWords({required int taskId}) async {
+    final database = await DatabaseService().database;
+    final keyWords = await database.rawQuery(
+        '''SELECT key.id, key.word, key.category FROM $tableKeyWords as key INNER JOIN $relationship as r ON r.key_id = key.id WHERE r.task_id = ? ''',
+        [taskId]);
+    return keyWords.map((key) => KeyWord.fromSqfliteDatabase(key)).toList();
+  }
+
+  Future<List<KeyWord>> fetchCategoryKeyWords(
+      {required String category}) async {
+    print('REEEEEEEEEEEEEE');
+
+    final database = await DatabaseService().database;
+    final keyWords = await database.rawQuery(
+        '''SELECT * FROM $tableKeyWords WHERE category = ? ''', [category]);
+    return keyWords.map((key) => KeyWord.fromSqfliteDatabase(key)).toList();
   }
 
   Future<List<Task>> fetchAll() async {

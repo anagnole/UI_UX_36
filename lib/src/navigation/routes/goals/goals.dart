@@ -21,16 +21,15 @@ class GoalsPage extends StatelessWidget {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.of(context).push(modalAnimation(
-            CreateGoal(onSubmit: (title, category, picture, description) async {
-              await appState.snapgoalsDB.create(
-                  title: title,
-                  category: category,
-                  picture: picture,
-                  description: description);
-              //if (!mounted) return;
+            CreateGoal(onSubmit: (title, category, picture, keyIds) async {
+              await appState.snapgoalsDB.createTask(
+                title: title,
+                category: category,
+                picture: picture,
+                keyIds: keyIds,
+              );
               appState.fetchTasks();
               appState.notify();
-              //Navigator.of(context).pop();
             }),
           ));
         },

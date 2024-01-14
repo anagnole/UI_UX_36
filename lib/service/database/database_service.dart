@@ -8,7 +8,7 @@ class DatabaseService {
 
   Future<Database> get database async {
     if (_database != null) {
-      return _database!;
+      //return _database!;
     }
     _database = await _initialize();
     return _database!;
@@ -29,7 +29,6 @@ class DatabaseService {
       singleInstance: true,
     );
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     await prefs.setString('name', 'George');
     await prefs.setBool('hasCompletedOnBoarding', false);
     await SnapgoalsDB().createTable(database);
