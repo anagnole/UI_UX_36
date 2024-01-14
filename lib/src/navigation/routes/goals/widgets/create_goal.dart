@@ -1,11 +1,14 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/service/models/key_word.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
+import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/appbar_withx.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/filter_chip.dart';
 
 typedef OnSubmitCallback = void Function(
-    String title, String category, Uint8List picture, String description);
+    String title, String category, Uint8List picture, List<int> keyIds);
 
 class CreateGoal extends StatefulWidget {
   final Task? task;
@@ -43,7 +46,7 @@ class _CreateGoal extends State<CreateGoal> {
 
   @override
   void dispose() {
-    textFocusNode.dispose(); // Don't forget to dispose it
+    textFocusNode.dispose();
     super.dispose();
   }
 
@@ -51,6 +54,10 @@ class _CreateGoal extends State<CreateGoal> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
+    appState.fetchKeyWordsByCategory(_selectedCategory);
+    //Future<List<KeyWord>>? futureKeyWords = appState.futureKeyWordsByCategory;
+
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: const SnapGoalsAppBar2(),
@@ -64,7 +71,6 @@ class _CreateGoal extends State<CreateGoal> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ListView(
-            // Changed to ListView to accommodate the keyboard.
             children: <Widget>[
               const Text(
                 'Title',
@@ -135,7 +141,19 @@ class _CreateGoal extends State<CreateGoal> {
                 'Description',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 8),
+              FutureBuilder<List<KeyWord>>(
+                future: appState.futureKeyWordsByCategory,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    final keyWords = snapshot.data!;
+                    return Text(keyWords[0].word);
+                    //return keyWords.map((key) => Text(key.word));
+                  } else {
+                    // Otherwise, display a loading indicator
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                },
+              ),
               Form(
                 key: formKey2,
                 child: TextField(
@@ -163,7 +181,7 @@ class _CreateGoal extends State<CreateGoal> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       widget.onSubmit(controllerTitle.text, _selectedCategory,
-                          Uint8List(0), controllerDesctipion.text);
+                          Uint8List(0), []);
                       Navigator.of(context).pop();
                     }
                   },

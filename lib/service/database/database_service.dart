@@ -29,7 +29,6 @@ class DatabaseService {
       singleInstance: true,
     );
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
     await prefs.setString('name', 'George');
     await prefs.setBool('hasCompletedOnBoarding', false);
     await SnapgoalsDB().createTable(database);
