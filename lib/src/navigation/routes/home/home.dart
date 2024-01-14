@@ -32,8 +32,46 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.transparent,
       body: Column(
         children: [
+          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+           Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [const Align(
+              alignment: Alignment.centerLeft,
+              child: Text('Your Progress',
+                      style: TextStyle(
+                              fontSize: 24.0, 
+                              fontWeight: FontWeight.bold, 
+                              fontFamily: 'Viga'
+                            ),
+                        textAlign: TextAlign.left
+                    ),
+            ),
+          const SizedBox(height: 8),
+          Material(
+            elevation: 4.0,
+            child: Container(
+              color: const Color.fromARGB(255, 137, 136, 136),
+              height: 2.0,
+              
+            ),
+          ),]
+            ),
+          ),
+
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05,),
+          const Center(child: PieChartWidget()),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.08,
+          ),
           isNameInitialized
-              ? Text('Hello ${appState.name}!')
+              ? Text('Hello ${appState.name}!',
+                style: const TextStyle(
+                            fontSize: 24.0, 
+                            fontWeight: FontWeight.bold, 
+                            fontFamily: 'Viga'
+                          ),
+              )
               : FutureBuilder<String>(
                   future: _name,
                   builder:
@@ -49,15 +87,17 @@ class _HomePageState extends State<HomePage> {
                         } else {
                           appState.name = snapshot.data!;
 
-                          return Text('Hello ${appState.name}!');
+                          return Text('Hello ${appState.name}!',
+                          style: const TextStyle(
+                            fontSize: 24.0, 
+                            fontWeight: FontWeight.bold, 
+                            fontFamily: 'Viga'
+                          )
+                          );
                         }
                     }
                   },
                 ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-          ),
-          Center(child: const PieChartWidget()),
         ],
       ),
     );
