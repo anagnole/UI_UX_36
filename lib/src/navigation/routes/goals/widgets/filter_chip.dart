@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/service/models/key_word.dart';
+import 'package:snapgoals_v2/src/app_state.dart';
 
 class FilterChipExample extends StatefulWidget {
-  const FilterChipExample({super.key});
+  final List<KeyWord> keyWords;
+  const FilterChipExample({super.key, required this.keyWords});
 
   @override
   State<FilterChipExample> createState() => _FilterChipExampleState();
 }
 
-enum Keywords {paper, test}
-
 class _FilterChipExampleState extends State<FilterChipExample> {
-  Set<Keywords> filters = <Keywords>{};
+  //Set<Keywords>   final List<KeyWord> keyWords;
+  late List<KeyWord> keyWords;
+
+  @override
+  void initState() {
+    keyWords = widget.keyWords;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = Theme.of(context).textTheme;
+    var appState = context.watch<AppState>();
 
     return Center(
       child: Column(
@@ -22,16 +31,16 @@ class _FilterChipExampleState extends State<FilterChipExample> {
         children: <Widget>[
           Wrap(
             spacing: 5.0,
-            children: Keywords.values.map((Keywords keyword) {
+            children: keyWords.map((keyword) {
               return FilterChip(
-                label: Text(keyword.name),
-                selected: filters.contains(keyword),
+                label: Text(keyword.word),
+                selected: appState.chosenKeyWords.contains(keyword.id),
                 onSelected: (bool selected) {
                   setState(() {
                     if (selected) {
-                      filters.add(keyword);
+                      appState.chosenKeyWords.add(keyword.id);
                     } else {
-                      filters.remove(keyword);
+                      appState.chosenKeyWords.remove(keyword.id);
                     }
                   });
                 },
@@ -39,10 +48,6 @@ class _FilterChipExampleState extends State<FilterChipExample> {
             }).toList(),
           ),
           const SizedBox(height: 10.0),
-          Text(
-            'Looking for: ${filters.map((Keywords e) => e.name).join(', ')}',
-            style: textTheme.labelLarge,
-          ),
         ],
       ),
     );

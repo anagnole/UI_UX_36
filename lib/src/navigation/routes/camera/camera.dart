@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
+import 'package:snapgoals_v2/service/models/key_word.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/appbar_etc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -127,9 +128,13 @@ class _CameraViewPageState extends State<CameraScreen> {
     try {
       XFile? image = await _controller.takePicture();
       Uint8List imageBytes = await image.readAsBytes();
+      List<KeyWord> keyWords;
+      keyWords = await db.fetchTaskKeyWords(taskId: taskId);
+      for (KeyWord key in keyWords) {
+        print(key.word);
+      }
 
       db.update(id: taskId, picture: imageBytes);
-
       // Get the project's directory
       final Directory appDirectory = await getApplicationDocumentsDirectory();
       final String appPath = appDirectory.path;
