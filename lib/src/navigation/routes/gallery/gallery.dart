@@ -14,7 +14,7 @@ class GalleryPage extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    List<GoalImageWidget> widgetList = [];
+    List<dynamic> widgetList = [];
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -28,62 +28,63 @@ class GalleryPage extends StatelessWidget {
             } else {
               //appState.snapgoalsDB.deleteAll(); //
               final tasks = snapshot.data!;
-              print('taks' + tasks.length.toString());
               for (Task a in tasks) {
                 widgetList.add(GoalImageWidget(task: a));
               }
-              return Column(
-                children: [
-                  SizedBox(height: 20.0),
-                  Container(
-                    height: screenHeight * 0.73,
-                    width: screenWidth,
-                    child: ListView.builder(
-                      itemCount: (widgetList.length / 2).ceil(),
-                      itemBuilder: (context, index) {
-                        if (widgetList.length % 2 != 0 &&
-                            index == (widgetList.length / 2).ceil() - 1) {
-                          return Row(
-                            children: [
-                              SizedBox(width: screenWidth * 0.03),
-                              Card(
-                                elevation: 20.0,
-                                child: widgetList[2 * index],
-                              ),
-                            ],
-                          );
-                        } else {
-                          return Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Card(
-                                    elevation: 20.0,
-                                    child: widgetList[2 * index],
-                                  ),
-                                  SizedBox(width: screenWidth * 0.1),
-                                  // GestureDetector(
-                                  //   onTap: () {
-                                  //     Navigator.of(context).push(modalAnimation(
-                                  //         const Modal(pageName: 'taskPage')));
-                                  //   },
-                                  //   child:
-                                  Card(
-                                      elevation: 20,
-                                      child: widgetList[2 * index + 1]),
+              widgetList.add(SizedBox(
+                height: screenHeight * 0.1,
+              ));
+              return ListView.builder(
+                itemCount: (widgetList.length / 2).ceil(),
+                itemBuilder: (context, index) {
+                  if ((widgetList.length - 1) % 2 != 0 &&
+                      index == ((widgetList.length - 1) / 2).ceil() - 1) {
+                    return Column(
+                      children: [
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          children: [
+                            SizedBox(width: screenWidth * 0.03),
+                            Card(
+                              elevation: 20.0,
+                              child: widgetList[2 * index],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: screenHeight * 0.15,
+                        )
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      children: [
+                        const SizedBox(height: 20.0),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Card(
+                              elevation: 20.0,
+                              child: widgetList[2 * index],
+                            ),
+                            SizedBox(width: screenWidth * 0.1),
+                            Card(
+                                elevation: 20,
+                                child: widgetList[
+                                    (2 * index + 1) > widgetList.length - 1
+                                        ? widgetList.length - 1
+                                        : 2 * index + 1]),
 
-                                  //),
-                                ],
-                              ),
-                              SizedBox(height: screenHeight * 0.015),
-                            ],
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ],
+                            //),
+                          ],
+                        ),
+                        //SizedBox(height: screenHeight * 0.1),
+                      ],
+                    );
+                  }
+                },
               );
             }
           }),

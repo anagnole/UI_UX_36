@@ -116,10 +116,80 @@ class _MyNavigatorState extends State<MyNavigator> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: const SnapGoalsAppBar(),
-      bottomNavigationBar: Transform.translate(
-        offset: const Offset(0, 15),
-        child: NavigationBar(
-          height: 90,
+      // bottomNavigationBar: Stack(
+      //   alignment: Alignment.bottomCenter,
+      //   children: [
+      //     NavigationBar(
+      //       height: 75,
+      //       indicatorColor: Colors.transparent,
+      //       backgroundColor: primaryColor,
+      //       onDestinationSelected: (index) =>
+      //           onDestinationSelected(index, currentPageIndex),
+      //       selectedIndex: currentPageIndex,
+      //       destinations: <Widget>[
+      //         NavigationDestination(
+      //           icon: Transform.translate(
+      //               offset: const Offset(0, 7),
+      //               child: Image.asset(icons[pickedIcons[0]])),
+      //           label: '',
+      //         ),
+      //         NavigationDestination(
+      //           icon: Opacity(opacity: 0.0), // Invisible placeholder
+      //           label: '',
+      //         ),
+      //         NavigationDestination(
+      //           icon: Transform.translate(
+      //               offset: const Offset(0, 7),
+      //               child: Image.asset(icons[pickedIcons[2]])),
+      //           label: '',
+      //         ),
+      //       ],
+      //     ),
+      //     Container(
+      //       color: Colors.transparent,
+      //       child: Padding(
+      //         padding: EdgeInsets.only(
+      //             bottom: 17), // Adjust as needed for positioning
+      //         child: Image.asset(selectedIcons[pickedIcons[1]], scale: 0.9),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      body: Stack(alignment: Alignment.bottomCenter, children: [
+        GestureDetector(
+          onHorizontalDragEnd: (DragEndDetails details) {
+            if (details.primaryVelocity! > 0) {
+              // Swiping right
+              switch (currentPageIndex) {
+                case 0:
+                  stateHandler(2, false);
+                  break;
+                case 1:
+                  stateHandler(0, false);
+                  break;
+                case 2:
+                  stateHandler(1, false);
+                  break;
+              }
+            } else if (details.primaryVelocity! < 0) {
+              // Swiping left
+              switch (currentPageIndex) {
+                case 0:
+                  stateHandler(1, true);
+                  break;
+                case 1:
+                  stateHandler(2, true);
+                  break;
+                case 2:
+                  stateHandler(0, true);
+                  break;
+              }
+            }
+          },
+          child: page,
+        ),
+        NavigationBar(
+          height: 70,
           indicatorColor: Colors.transparent,
           backgroundColor: primaryColor,
           onDestinationSelected: (index) =>
@@ -127,63 +197,32 @@ class _MyNavigatorState extends State<MyNavigator> {
           selectedIndex: currentPageIndex,
           destinations: <Widget>[
             NavigationDestination(
-              icon: Image.asset(icons[pickedIcons[0]]),
+              icon: Transform.translate(
+                  offset: const Offset(0, 7),
+                  child: Image.asset(icons[pickedIcons[0]])),
+              label: '',
+            ),
+            NavigationDestination(
+              icon: Opacity(opacity: 0.0), // Invisible placeholder
               label: '',
             ),
             NavigationDestination(
               icon: Transform.translate(
-                  offset: const Offset(0, -20),
-                  child: SizedBox.square(
-                    dimension: 90,
-                    child: Image.asset(
-                      selectedIcons[pickedIcons[1]],
-                      fit: BoxFit.none,
-                      scale: 0.9,
-                    ),
-                  )),
-              label: '',
-            ),
-            NavigationDestination(
-              icon: Image.asset(icons[pickedIcons[2]]),
+                  offset: const Offset(0, 7),
+                  child: Image.asset(icons[pickedIcons[2]])),
               label: '',
             ),
           ],
         ),
-      ),
-      body: GestureDetector(
-        onHorizontalDragEnd: (DragEndDetails details) {
-          if (details.primaryVelocity! > 0) {
-            // Swiping right
-            switch (currentPageIndex) {
-              case 0:
-                stateHandler(2, false);
-                break;
-              case 1:
-                stateHandler(0, false);
-                break;
-              case 2:
-                stateHandler(1, false);
-                break;
-            }
-          } else if (details.primaryVelocity! < 0) {
-            // Swiping left
-            switch (currentPageIndex) {
-              case 0:
-                stateHandler(1, true);
-                break;
-              case 1:
-                stateHandler(2, true);
-                break;
-              case 2:
-                stateHandler(0, true);
-                break;
-            }
-          }
-        },
-        child: Container(
-          child: page,
+        Container(
+          color: Colors.transparent,
+          child: Padding(
+            padding:
+                EdgeInsets.only(bottom: 13), // Adjust as needed for positioning
+            child: Image.asset(selectedIcons[pickedIcons[1]], scale: 0.93),
+          ),
         ),
-      ),
+      ]),
     );
   }
 }

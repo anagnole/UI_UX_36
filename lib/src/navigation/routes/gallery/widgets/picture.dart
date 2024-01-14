@@ -1,7 +1,8 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
+import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'package:snapgoals_v2/src/modal/modal.dart';
@@ -26,6 +27,7 @@ class _GoalImageWidgetState extends State<GoalImageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var appState = context.watch<AppState>();
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     ;
@@ -45,6 +47,33 @@ class _GoalImageWidgetState extends State<GoalImageWidget> {
         break;
     }
     return GestureDetector(
+      onLongPress: () {
+        HapticFeedback.vibrate();
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return (AlertDialog(
+                backgroundColor: const Color.fromARGB(255, 255, 254, 253),
+                title: const Text('Delete Photo'),
+                content:
+                    const Text('Are you sure you want to delete this photo?'),
+                actions: [
+                  TextButton(
+                      onPressed: () async {
+                        await appState.snapgoalsDB.delete(task.id);
+                        appState.notify();
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Delete')),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel'))
+                ],
+              ));
+            });
+      },
       onTap: () {
         Navigator.of(context)
             .push(modalAnimation(Modal(pageName: 'taskPage', task: task)));

@@ -55,14 +55,38 @@ class TaskWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Text(title),
                 ),
-                const Spacer(), // Adds flexible space between text and IconButton
+                const Spacer(),
                 IconButton(
                   onPressed: () async {
-                    await appState.snapgoalsDB.delete(task_id);
-                    appState.fetchTasks();
-                    appState.notify();
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return (AlertDialog(
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 254, 253),
+                            title: const Text('Delete Goal'),
+                            content: const Text(
+                                'Are you sure you want to delete this goal?'),
+                            actions: [
+                              TextButton(
+                                  onPressed: () async {
+                                    await appState.snapgoalsDB.delete(task_id);
+                                    appState.fetchTasks();
+
+                                    appState.notify();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Delete')),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel'))
+                            ],
+                          ));
+                        });
                   },
-                  icon: Image.asset('assets/images/trash.png'),
+                  icon: Image.asset(scale: 0.5, 'assets/images/trash.png'),
                 ),
               ],
             )),

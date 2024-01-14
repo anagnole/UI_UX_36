@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snapgoals_v2/src/onboarding/widgets/step_1.dart';
 
 class OnBoarding extends StatelessWidget {
@@ -14,8 +15,10 @@ class OnBoarding extends StatelessWidget {
             Align(
               alignment: Alignment.topRight,
               child: TextButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/');
+                onPressed: () async {
+                  final prefs = await SharedPreferences.getInstance();
+                  await prefs.setBool('hasCompletedOnBoarding', true);
+                  Navigator.of(context).pop();
                 },
                 style: TextButton.styleFrom(
                   padding:

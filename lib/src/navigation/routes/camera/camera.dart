@@ -57,10 +57,7 @@ class _CameraViewPageState extends State<CameraScreen> {
     return Scaffold(
         body: Column(children: [
       // Purple bar at the top
-      Container(
-        height: screenHeight * 0.04, // Adjust the height as needed
-        color: const Color(0xFF5F54A6),
-      ),
+
       Expanded(
         child: GestureDetector(
           onDoubleTap: () {
@@ -121,10 +118,6 @@ class _CameraViewPageState extends State<CameraScreen> {
             ],
           ),
         ),
-      ),
-      Container(
-        height: screenHeight * 0.04, // Adjust the height as needed
-        color: const Color(0xFF5F54A6),
       ),
     ]));
   }
