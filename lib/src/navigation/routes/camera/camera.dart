@@ -134,13 +134,38 @@ class _CameraViewPageState extends State<CameraScreen> {
   Future<void> _takePictureAndSave(
       BuildContext context, int taskId, SnapgoalsDB db) async {
     try {
+      final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
+
       XFile? image = await _controller.takePicture();
+
+      File imageFile = File(image.path);
+      InputImage inputImage = InputImage.fromFile(imageFile);
+      List<String> labelsText2 = [];
+
+      final List<ImageLabel> labels =
+          await imageLabeler.processImage(inputImage);
+      for (ImageLabel label in labels) {
+        labelsText2.add(label.label);
+        final String text = label.label;
+        print('wihdfwe');
+        print(text);
+        // final int index = label.index;
+        // final double confidence = label.confidence;
+      }
+
       Uint8List imageBytes = await image.readAsBytes();
       List<KeyWord> keyWords;
       keyWords = await db.fetchTaskKeyWords(taskId: taskId);
       List<String> keyWordsText = [];
-      keyWords.map((e) => keyWordsText.add(e.word));
-
+      for (KeyWord key in keyWords) {
+        keyWordsText.add(key.word);
+      }
+      for (String key in keyWordsText) {
+        keyWordsText.add(key);
+      }
+      keyWords.map((e) => {});
+      print(keyWords.length + 1);
+      keyWordsText.map((e) => print(e));
       // Get the project's directory
       final Directory appDirectory = await getApplicationDocumentsDirectory();
       final String appPath = appDirectory.path;
@@ -151,33 +176,35 @@ class _CameraViewPageState extends State<CameraScreen> {
           '$appPath/image_${DateTime.now().millisecondsSinceEpoch}.png';
       await newImage.copy(newImagePath);
 
-      final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
-
-      final InputImage inputImage = InputImage.fromFilePath(newImagePath);
-      List<String> labelsText = [];
-      final List<ImageLabel> labels =
-          await imageLabeler.processImage(inputImage);
-      for (ImageLabel label in labels) {
-        labelsText.add(label.label);
-        // final String text = label.label;
-        // final int index = label.index;
-        // final double confidence = label.confidence;
-      }
+      // final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
+      // //late InputImage inputImage;
+      // final inputImage2 = InputImage.fromFilePath(newImagePath);
+      // List<String> labelsText = [];
+      // final List<ImageLabel> labels =
+      //     await imageLabeler.processImage(inputImage2);
+      // for (ImageLabel label in labels) {
+      //   labelsText.add(label.label);
+      //   final String text = label.label;
+      //   print('wihdfwe');
+      //   print(text);
+      //   // final int index = label.index;
+      //   // final double confidence = label.confidence;
+      // }
 
       Set<String> keyWordsSet = Set.from(keyWordsText);
-      Set<String> labelsSet = Set.from(labelsText);
+      Set<String> labelsSet = Set.from(labelsText2);
 
       Set<String> commonElements = keyWordsSet.intersection(labelsSet);
 
       if (commonElements.isNotEmpty) {
         db.update(id: taskId, picture: imageBytes);
-        await showSuccessPopup(context)
-            .then((value) => Navigator.of(context).pop());
+        //await showSuccessPopup(context)
+        //.then((value) => Navigator.of(context).pop());
         print('Common elements: $commonElements');
       } else {
-        showFailurePopup(context, db, taskId, imageBytes);
-        await showFailurePopup(context, db, taskId, imageBytes)
-            .then((value) => true ? {} : {});
+        //showFailurePopup(context, db, taskId, imageBytes);
+        //await showFailurePopup(context, db, taskId, imageBytes)
+        // .then((value) => true ? {} : {});
         print('No common elements found.');
       }
       imageLabeler.close();
