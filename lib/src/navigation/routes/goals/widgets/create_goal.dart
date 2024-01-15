@@ -162,18 +162,20 @@ class _CreateGoal extends State<CreateGoal> {
                     appState.chosenKeyWords = [];
                     appState.notify();
                   },
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text(
                     'Add Task',
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B8BB1),
                     elevation: 4,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
+                    
                   ),
                 ),
               ),
