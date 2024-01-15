@@ -33,6 +33,7 @@ class _FilterChipExampleState extends State<FilterChipExample> {
             spacing: 5.0,
             children: keyWords.map((keyword) {
               return FilterChip(
+                selectedColor: Colors.blue,
                 label: Text(keyword.word),
                 selected: appState.chosenKeyWords.contains(keyword.id),
                 onSelected: (bool selected) {

@@ -54,7 +54,8 @@ Future<void> showFailurePopup(
         },
         onButton2Pressed: () async {
           await db.update(id: taskId, picture: picture);
-          Navigator.of(context).pop();
+
+          //Navigator.of(context).pop();
 
           // Handle Button 2 Pressed
           //Navigator.pushReplacementNamed(context, '/goals');

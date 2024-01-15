@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:snapgoals_v2/src/modal/modal.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
@@ -44,7 +45,7 @@ class SnapGoalsAppBar extends StatelessWidget implements PreferredSizeWidget {
               Navigator.of(context)
                   .push(modalAnimation(const Modal(pageName: 'profile')));
             },
-            icon: Image.asset("assets/images/avatar icon.png"),
+            icon: SvgPicture.asset("assets/images/avatar.svg"),
           ),
         ),
       ],

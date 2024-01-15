@@ -15,6 +15,7 @@ class AppState extends ChangeNotifier {
   Future<SharedPreferences>? prefs = SharedPreferences.getInstance();
   String? name;
   List<int> chosenKeyWords = [];
+  bool retake = true;
 
   final snapgoalsDB = SnapgoalsDB();
 
