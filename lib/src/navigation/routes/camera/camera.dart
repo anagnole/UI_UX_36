@@ -175,8 +175,9 @@ class _CameraViewPageState extends State<CameraScreen> {
             .then((value) => Navigator.of(context).pop());
         print('Common elements: $commonElements');
       } else {
+        showFailurePopup(context, db, taskId, imageBytes);
         await showFailurePopup(context, db, taskId, imageBytes)
-            .then((value) => Navigator.of(context).pop());
+            .then((value) => true ? {} : {});
         print('No common elements found.');
       }
       imageLabeler.close();

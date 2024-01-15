@@ -3,6 +3,7 @@ import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/create_goal.dart';
 import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/current_goals_text.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/widgets/task_widget.dart';
 
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
@@ -18,7 +19,8 @@ class GoalsPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.add, color: Colors.white,),
+        backgroundColor: const Color(0xFF3B8BB1),
         onPressed: () {
           Navigator.of(context).push(modalAnimation(
             CreateGoal(onSubmit: (title, category, picture, keyIds) async {
@@ -62,6 +64,10 @@ class GoalsPage extends StatelessWidget {
                                 const SizedBox(
                                   height: 20,
                                 ),
+                                const CurrentGoalsText(text: "Current Goals"),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
                                 TaskWidget(
                                     task_id: task.id,
                                     category: task.category,
@@ -81,10 +87,14 @@ class GoalsPage extends StatelessWidget {
                               ],
                             );
                           } else {
-                            return TaskWidget(
-                                task_id: task.id,
-                                category: task.category,
-                                title: task.title);
+                            return Column(
+                              children: [
+                                TaskWidget(
+                                    task_id: task.id,
+                                    category: task.category,
+                                    title: task.title),
+                              ],
+                            );
                           }
                         },
                         separatorBuilder: (context, index) => const SizedBox(

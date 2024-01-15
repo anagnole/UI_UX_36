@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Future<bool> checkOnboardingCompleted() async {
       final prefs = await SharedPreferences.getInstance();
-      //final database = await DatabaseService().database;
+      final database = await DatabaseService().database;
       return prefs.getBool('hasCompletedOnBoarding') ?? false;
     }
 

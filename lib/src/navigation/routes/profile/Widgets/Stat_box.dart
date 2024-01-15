@@ -12,28 +12,27 @@ class StatBox extends Textwithbar {
           color: const Color(0xFF3B8BB1),
           border: Border.all(color: Colors.black),
           borderRadius:
-              BorderRadius.circular(17.0), // Adjust border radius as needed
+              BorderRadius.circular(25.0), // Adjust border radius as needed
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
-                  text,
-                  style: const TextStyle(
+              text,
+              style: const TextStyle(
                   fontFamily: 'Viga',
                   fontSize: 18.0,
-                  fontWeight: FontWeight.bold
-                  ),
-                ),
+                  fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
             Material(
-               elevation: 4.0,
-               child: Container(
-                  color: const Color.fromARGB(255, 82, 81, 81),
-                  height: 2.0,
-                  ),
-                )
-            ],
+              elevation: 4.0,
+              child: Container(
+                color: const Color.fromARGB(255, 82, 81, 81),
+                height: 2.0,
+              ),
+            )
+          ],
         ));
   }
 }

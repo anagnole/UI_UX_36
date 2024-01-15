@@ -102,6 +102,7 @@ class _CreateGoal extends State<CreateGoal> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('fitness'),
                 value: 'fitness',
                 groupValue: _selectedCategory,
@@ -112,6 +113,7 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('study'),
                 value: 'study',
                 groupValue: _selectedCategory,
@@ -122,6 +124,7 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('social'),
                 value: 'social',
                 groupValue: _selectedCategory,
@@ -162,12 +165,13 @@ class _CreateGoal extends State<CreateGoal> {
                     appState.chosenKeyWords = [];
                     appState.notify();
                   },
-                  icon: const Icon(Icons.add),
+                  icon: const Icon(Icons.add, color: Colors.white),
                   label: const Text(
                     'Add Task',
-                    style: TextStyle(fontSize: 15),
+                    style: TextStyle(fontSize: 15, color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF3B8BB1),
                     elevation: 4,
                     padding: const EdgeInsets.symmetric(
                         horizontal: 15, vertical: 15),

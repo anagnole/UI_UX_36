@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:snapgoals_v2/src/appbar_etc.dart';
 import 'package:snapgoals_v2/src/navigation/routes/gallery/gallery.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/goals.dart';
@@ -17,14 +18,14 @@ class _MyNavigatorState extends State<MyNavigator> {
   int currentPageIndex = 1;
 
   List<String> icons = [
-    'assets/images/Gallery icon.png',
-    'assets/images/home icon.png',
-    'assets/images/Goals icon.png'
+    'assets/images/gallery.svg',
+    'assets/images/home.svg',
+    'assets/images/goals.svg'
   ];
   List<String> selectedIcons = [
-    'assets/images/Gallery icon selected.png',
-    'assets/images/selected home icon.png',
-    'assets/images/selected goal icon.png'
+    'assets/images/gallerySelected.svg',
+    'assets/images/homeSelected.svg',
+    'assets/images/goalsSelected.svg'
   ];
   List<int> pickedIcons = [0, 1, 2];
 
@@ -163,7 +164,7 @@ class _MyNavigatorState extends State<MyNavigator> {
             NavigationDestination(
               icon: Transform.translate(
                   offset: const Offset(0, 7),
-                  child: Image.asset(icons[pickedIcons[0]])),
+                  child: SvgPicture.asset(icons[pickedIcons[0]])),
               label: '',
             ),
             const NavigationDestination(
@@ -173,7 +174,7 @@ class _MyNavigatorState extends State<MyNavigator> {
             NavigationDestination(
               icon: Transform.translate(
                   offset: const Offset(0, 7),
-                  child: Image.asset(icons[pickedIcons[2]])),
+                  child: SvgPicture.asset(icons[pickedIcons[2]])),
               label: '',
             ),
           ],
@@ -182,7 +183,10 @@ class _MyNavigatorState extends State<MyNavigator> {
           color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 13),
-            child: Image.asset(selectedIcons[pickedIcons[1]], scale: 0.93),
+            child: SvgPicture.asset(
+              selectedIcons[pickedIcons[1]],
+              height: 85,
+            ),
           ),
         ),
       ]),
