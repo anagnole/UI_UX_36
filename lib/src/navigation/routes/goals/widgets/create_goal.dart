@@ -102,6 +102,7 @@ class _CreateGoal extends State<CreateGoal> {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('fitness'),
                 value: 'fitness',
                 groupValue: _selectedCategory,
@@ -112,6 +113,7 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('study'),
                 value: 'study',
                 groupValue: _selectedCategory,
@@ -122,6 +124,7 @@ class _CreateGoal extends State<CreateGoal> {
                 },
               ),
               RadioListTile<String>(
+                activeColor: Colors.blue,
                 title: const Text('social'),
                 value: 'social',
                 groupValue: _selectedCategory,
@@ -175,7 +178,6 @@ class _CreateGoal extends State<CreateGoal> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    
                   ),
                 ),
               ),
