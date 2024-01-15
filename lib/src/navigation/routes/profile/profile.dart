@@ -65,7 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(height: 64),
+              const SizedBox(height: 32),
               Container(
                   padding: const EdgeInsets.all(48.0),
                   decoration: BoxDecoration(
@@ -100,7 +100,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             const Text(
                               'Name',
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
+                                fontFamily: 'Viga',
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),

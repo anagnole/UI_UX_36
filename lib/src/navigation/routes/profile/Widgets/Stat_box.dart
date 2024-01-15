@@ -17,10 +17,23 @@ class StatBox extends Textwithbar {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Text(text),
+            Text(
+                  text,
+                  style: const TextStyle(
+                  fontFamily: 'Viga',
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold
+                  ),
+                ),
             const SizedBox(height: 8),
-            const Divider(color: Colors.black, height: 2),
-          ],
+            Material(
+               elevation: 4.0,
+               child: Container(
+                  color: const Color.fromARGB(255, 82, 81, 81),
+                  height: 2.0,
+                  ),
+                )
+            ],
         ));
   }
 }

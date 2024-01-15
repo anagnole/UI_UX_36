@@ -17,6 +17,7 @@ class _TaskPageState extends State<TaskPage> {
     final screenWidth = MediaQuery.of(context).size.width;
     Color scolor = Colors.black;
     String title = widget.task?.title ?? 'No title available';
+    String category = widget.task?.category ?? 'No title available';
     switch (widget.task?.category) {
       case "fitness":
         scolor = const Color(0xFFFF7556);
@@ -34,8 +35,30 @@ class _TaskPageState extends State<TaskPage> {
         padding: const EdgeInsets.all(24.0),
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            Textwithbar(text: title),
-            SizedBox(height: screenHeight * 0.01),
+            //Textwithbar(text: category),
+              Column(
+              children: [ Align(
+              alignment: Alignment.center,
+              child: Text(category,
+                      style: const TextStyle(
+                              fontSize: 24.0, 
+                              fontWeight: FontWeight.bold, 
+                              fontFamily: 'Viga'
+                            ),
+                        textAlign: TextAlign.left
+                    ),
+            ),
+          const SizedBox(height: 8),
+          Material(
+            elevation: 4.0,
+            child: Container(
+              color: const Color.fromARGB(255, 137, 136, 136),
+              height: 2.0,
+              
+            ),
+          ),]
+            ),
+            SizedBox(height: screenHeight * 0.02),
             Container(
               height: screenHeight * 0.45,
               width: screenWidth * 0.7,
@@ -53,11 +76,11 @@ class _TaskPageState extends State<TaskPage> {
                   : Image.asset('assets/images/test_image.jpg',
                       fit: BoxFit.fill),
             ),
-            SizedBox(height: screenHeight * 0.01),
-            const Textwithbar(text: "Description"),
+            SizedBox(height: screenHeight * 0.02),
+            const Textwithbar(text: "Title"),
             SizedBox(height: screenHeight * 0.01),
             Container(
-              height: screenHeight * 0.12,
+              height: screenHeight * 0.08,
               width: screenWidth * 0.9,
               decoration: BoxDecoration(
                 color: const Color(0xFF3B8BB1),
@@ -67,15 +90,15 @@ class _TaskPageState extends State<TaskPage> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 12.0, top: 6.0),
                 child: Text(
-                  widget.task?.title ?? 'No description available',
+                  title,
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 16.0,
                   ),
                 ),
               ),
             ),
-            SizedBox(height: screenHeight * 0.01),
+            SizedBox(height: screenHeight * 0.02),
             const Textwithbar(text: "Date"),
             SizedBox(height: screenHeight * 0.01),
             Container(
@@ -91,7 +114,7 @@ class _TaskPageState extends State<TaskPage> {
                 child: Text(
                   widget.task?.updatedAt ?? 'Date not available',
                   style: const TextStyle(
-                    color: Colors.black,
+                    color: Colors.white,
                     fontSize: 16.0,
                   ),
                 ),
