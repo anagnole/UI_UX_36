@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:intl/intl.dart';
 
 class Task {
   final int id;
@@ -26,7 +27,7 @@ class Task {
             .toIso8601String(),
         updatedAt: map['updated_at'] == null
             ? null
-            : DateTime.fromMicrosecondsSinceEpoch(map['updated_at'])
-                .toIso8601String(),
+            : DateFormat("EEEE d 'of' MMMM y, 'at' HH:mm")
+                .format(DateTime.fromMicrosecondsSinceEpoch(map['updated_at'])),
       );
 }

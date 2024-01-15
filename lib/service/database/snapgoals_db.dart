@@ -12,8 +12,8 @@ class SnapgoalsDB {
   final relationship = 'relationship';
 
   Future<void> createTable(Database database) async {
-    //await database.execute("DROP TABLE $tableName;");
-    //await database.execute("DROP TABLE $tableKeyWords;");
+    await database.execute("DROP TABLE $tableName;");
+    await database.execute("DROP TABLE $tableKeyWords;");
     // await database.rawDelete('''DELETE FROM $tableName''');
     // await database.rawDelete('''DELETE FROM $tableKeyWords''');
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (
@@ -223,7 +223,7 @@ class SnapgoalsDB {
       {
         'picture': picture,
         'completed': 1,
-        'updated_at': DateTime.now().millisecondsSinceEpoch,
+        'updated_at': DateTime.now().microsecondsSinceEpoch,
       },
       where: 'id = ?',
       conflictAlgorithm: ConflictAlgorithm.rollback,

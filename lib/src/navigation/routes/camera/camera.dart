@@ -9,8 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
-import 'package:snapgoals_v2/src/navigation/routes/camera/failure_popup.dart';
-import 'package:snapgoals_v2/src/navigation/routes/camera/success_popup.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/Failure_Popup.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/success_Popup.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
