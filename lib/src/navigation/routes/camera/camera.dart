@@ -9,6 +9,8 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/failure_popup.dart';
+import 'package:snapgoals_v2/src/navigation/routes/camera/success_popup.dart';
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -23,6 +25,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraViewPageState extends State<CameraScreen> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
+  bool loading = false;
 
   int currentCamera = 1;
   late int taskId;
@@ -78,8 +81,8 @@ class _CameraViewPageState extends State<CameraScreen> {
               FutureBuilder<void>(
                 future: _initializeControllerFuture,
                 builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    // If the Future is complete, display the preview
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      loading == false) {
                     return SizedBox.expand(
                       child: FittedBox(
                         fit: BoxFit.cover,
@@ -110,9 +113,14 @@ class _CameraViewPageState extends State<CameraScreen> {
                   iconSize: 24.0,
                   icon: Image.asset('assets/images/shutter_button.png'),
                   onPressed: () async {
+                    setState(() {
+                      loading = true;
+                    });
                     await _takePictureAndSave(context, taskId, db);
+                    setState(() {
+                      loading = false;
+                    });
                     appState.notify();
-                    Navigator.of(context).pop();
                   },
                 ),
               ),
@@ -130,11 +138,9 @@ class _CameraViewPageState extends State<CameraScreen> {
       Uint8List imageBytes = await image.readAsBytes();
       List<KeyWord> keyWords;
       keyWords = await db.fetchTaskKeyWords(taskId: taskId);
-      for (KeyWord key in keyWords) {
-        print(key.word);
-      }
+      List<String> keyWordsText = [];
+      keyWords.map((e) => keyWordsText.add(e.word));
 
-      db.update(id: taskId, picture: imageBytes);
       // Get the project's directory
       final Directory appDirectory = await getApplicationDocumentsDirectory();
       final String appPath = appDirectory.path;
@@ -144,19 +150,34 @@ class _CameraViewPageState extends State<CameraScreen> {
       final String newImagePath =
           '$appPath/image_${DateTime.now().millisecondsSinceEpoch}.png';
       await newImage.copy(newImagePath);
+
       final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
 
       final InputImage inputImage = InputImage.fromFilePath(newImagePath);
+      List<String> labelsText = [];
       final List<ImageLabel> labels =
           await imageLabeler.processImage(inputImage);
       for (ImageLabel label in labels) {
-        final String text = label.label;
-        final int index = label.index;
-        final double confidence = label.confidence;
-        print(text);
-        print(index);
-        print(confidence);
-        // Use the results...
+        labelsText.add(label.label);
+        // final String text = label.label;
+        // final int index = label.index;
+        // final double confidence = label.confidence;
+      }
+
+      Set<String> keyWordsSet = Set.from(keyWordsText);
+      Set<String> labelsSet = Set.from(labelsText);
+
+      Set<String> commonElements = keyWordsSet.intersection(labelsSet);
+
+      if (commonElements.isNotEmpty) {
+        db.update(id: taskId, picture: imageBytes);
+        await showSuccessPopup(context)
+            .then((value) => Navigator.of(context).pop());
+        print('Common elements: $commonElements');
+      } else {
+        await showFailurePopup(context, db, taskId, imageBytes)
+            .then((value) => Navigator.of(context).pop());
+        print('No common elements found.');
       }
       imageLabeler.close();
       print('Image saved at: $newImagePath');

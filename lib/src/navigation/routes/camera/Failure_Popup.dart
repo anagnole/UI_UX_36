@@ -1,6 +1,9 @@
-import 'package:flutter/material.dart';
+import 'dart:typed_data';
 
-class FailurePopup extends StatelessWidget{
+import 'package:flutter/material.dart';
+import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
+
+class FailurePopup extends StatelessWidget {
   final String title;
   final String content;
   final String button1;
@@ -8,40 +11,37 @@ class FailurePopup extends StatelessWidget{
   final VoidCallback onButton1Pressed;
   final VoidCallback onButton2Pressed;
 
-  const FailurePopup({
-    required this.title,
-    required this.content,
-    required this.button1,
-    required this.button2,
-    required this.onButton1Pressed,
-    required this.onButton2Pressed,
-    super.key
-  });
+  const FailurePopup(
+      {required this.title,
+      required this.content,
+      required this.button1,
+      required this.button2,
+      required this.onButton1Pressed,
+      required this.onButton2Pressed,
+      super.key});
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: const Color.fromARGB(255, 247, 203, 199),
       title: Text(title),
       content: Text(content),
       actions: [
-        TextButton(onPressed: onButton1Pressed,
-        child: Text(button1) ),
-        TextButton(onPressed: onButton2Pressed,
-        child: Text(button2)
-        )
+        TextButton(onPressed: onButton1Pressed, child: Text(button1)),
+        TextButton(onPressed: onButton2Pressed, child: Text(button2))
       ],
     );
   }
 }
 
-void showFailurePopup(BuildContext context){
+Future<void> showFailurePopup(
+    BuildContext context, SnapgoalsDB db, int taskId, Uint8List picture) async {
   const String customDialogTitle = "Failure";
-  const String customDialogContent = "You can retake the photo or complete the goal manually.";
+  const String customDialogContent =
+      "You can retake the photo or complete the goal manually.";
   const String customButton1Text = "Retake";
   const String customButton2Text = "Complete Goal";
-
-  showDialog(
+  await showDialog(
     context: context,
     builder: (BuildContext context) {
       return FailurePopup(
@@ -50,13 +50,14 @@ void showFailurePopup(BuildContext context){
         button1: customButton1Text,
         button2: customButton2Text,
         onButton1Pressed: () {
-          // Handle Button 1 Pressed
-          Navigator.pop(context);
+          Navigator.of(context).pop();
         },
-        onButton2Pressed: () {
+        onButton2Pressed: () async {
+          await db.update(id: taskId, picture: picture);
+          Navigator.of(context).pop();
+
           // Handle Button 2 Pressed
-          Navigator.pop(context);
-          Navigator.pushReplacementNamed(context, '/goals');
+          //Navigator.pushReplacementNamed(context, '/goals');
         },
       );
     },

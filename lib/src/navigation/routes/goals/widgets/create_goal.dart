@@ -159,6 +159,8 @@ class _CreateGoal extends State<CreateGoal> {
                           Uint8List(0), appState.chosenKeyWords);
                       Navigator.of(context).pop();
                     }
+                    appState.chosenKeyWords = [];
+                    appState.notify();
                   },
                   icon: const Icon(Icons.add),
                   label: const Text(

@@ -10,10 +10,8 @@ class SnapgoalsDB {
   final tableName = 'tasks';
   final tableKeyWords = 'keyWords';
   final relationship = 'relationship';
-  //final db = DatabaseService().database;
 
   Future<void> createTable(Database database) async {
-    print('aaaaaaaaaaaa');
     //await database.execute("DROP TABLE $tableName;");
     //await database.execute("DROP TABLE $tableKeyWords;");
     // await database.rawDelete('''DELETE FROM $tableName''');
@@ -126,13 +124,13 @@ class SnapgoalsDB {
       '''INSERT INTO $tableName (title, category, picture, completed, created_at) VALUES (?,?,?,?,?)''',
       [title, category, picture, 0, DateTime.now().millisecondsSinceEpoch],
     );
-
-    keyIds.map((keyId) async {
+    for (int keyId in keyIds) {
       await database.rawInsert(
         '''INSERT INTO $relationship (task_id, key_id) VALUES (?,?)''',
         [taskId, keyId],
       );
-    });
+    }
+
     return 0;
   }
 
@@ -218,7 +216,6 @@ class SnapgoalsDB {
     return Task.fromSqfliteDatabase(task.first);
   }
 
-//maybe remove??
   Future<int> update({required int id, required Uint8List picture}) async {
     final database = await DatabaseService().database;
     return await database.update(

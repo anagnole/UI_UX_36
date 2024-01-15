@@ -15,6 +15,7 @@ class MyNavigator extends StatefulWidget {
 
 class _MyNavigatorState extends State<MyNavigator> {
   int currentPageIndex = 1;
+
   List<String> icons = [
     'assets/images/Gallery icon.png',
     'assets/images/home icon.png',
@@ -111,64 +112,25 @@ class _MyNavigatorState extends State<MyNavigator> {
         throw UnimplementedError('no widget for $currentPageIndex');
     }
 
-    //final ThemeData theme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: Colors.transparent,
       appBar: const SnapGoalsAppBar(),
-      // bottomNavigationBar: Stack(
-      //   alignment: Alignment.bottomCenter,
-      //   children: [
-      //     NavigationBar(
-      //       height: 75,
-      //       indicatorColor: Colors.transparent,
-      //       backgroundColor: primaryColor,
-      //       onDestinationSelected: (index) =>
-      //           onDestinationSelected(index, currentPageIndex),
-      //       selectedIndex: currentPageIndex,
-      //       destinations: <Widget>[
-      //         NavigationDestination(
-      //           icon: Transform.translate(
-      //               offset: const Offset(0, 7),
-      //               child: Image.asset(icons[pickedIcons[0]])),
-      //           label: '',
-      //         ),
-      //         NavigationDestination(
-      //           icon: Opacity(opacity: 0.0), // Invisible placeholder
-      //           label: '',
-      //         ),
-      //         NavigationDestination(
-      //           icon: Transform.translate(
-      //               offset: const Offset(0, 7),
-      //               child: Image.asset(icons[pickedIcons[2]])),
-      //           label: '',
-      //         ),
-      //       ],
-      //     ),
-      //     Container(
-      //       color: Colors.transparent,
-      //       child: Padding(
-      //         padding: EdgeInsets.only(
-      //             bottom: 17), // Adjust as needed for positioning
-      //         child: Image.asset(selectedIcons[pickedIcons[1]], scale: 0.9),
-      //       ),
-      //     ),
-      //   ],
-      // ),
       body: Stack(alignment: Alignment.bottomCenter, children: [
         GestureDetector(
           onHorizontalDragEnd: (DragEndDetails details) {
             if (details.primaryVelocity! > 0) {
-              // Swiping right
               switch (currentPageIndex) {
                 case 0:
                   stateHandler(2, false);
+
                   break;
                 case 1:
                   stateHandler(0, false);
+
                   break;
                 case 2:
                   stateHandler(1, false);
+
                   break;
               }
             } else if (details.primaryVelocity! < 0) {
@@ -179,9 +141,11 @@ class _MyNavigatorState extends State<MyNavigator> {
                   break;
                 case 1:
                   stateHandler(2, true);
+
                   break;
                 case 2:
                   stateHandler(0, true);
+
                   break;
               }
             }
@@ -202,7 +166,7 @@ class _MyNavigatorState extends State<MyNavigator> {
                   child: Image.asset(icons[pickedIcons[0]])),
               label: '',
             ),
-            NavigationDestination(
+            const NavigationDestination(
               icon: Opacity(opacity: 0.0), // Invisible placeholder
               label: '',
             ),
@@ -217,8 +181,7 @@ class _MyNavigatorState extends State<MyNavigator> {
         Container(
           color: Colors.transparent,
           child: Padding(
-            padding:
-                EdgeInsets.only(bottom: 13), // Adjust as needed for positioning
+            padding: const EdgeInsets.only(bottom: 13),
             child: Image.asset(selectedIcons[pickedIcons[1]], scale: 0.93),
           ),
         ),

@@ -36,8 +36,6 @@ class AppState extends ChangeNotifier {
   }
 
   void totalTasksByCategory() {
-    print('fetch completed tasks category app state');
-
     futureTaskNumByCategory = snapgoalsDB.taskNumByCategory();
   }
 
