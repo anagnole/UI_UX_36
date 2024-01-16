@@ -34,14 +34,14 @@ class FailurePopup extends StatelessWidget {
   }
 }
 
-Future<void> showFailurePopup(
-    BuildContext context, SnapgoalsDB db, int taskId, Uint8List picture) async {
+void showFailurePopup(BuildContext context, SnapgoalsDB db, int taskId,
+    Uint8List picture, String location) {
   const String customDialogTitle = "Failure";
   const String customDialogContent =
       "You can retake the photo or complete the goal manually.";
   const String customButton1Text = "Retake";
   const String customButton2Text = "Complete Goal";
-  await showDialog(
+  showDialog(
     context: context,
     builder: (BuildContext context) {
       return FailurePopup(
@@ -53,9 +53,11 @@ Future<void> showFailurePopup(
           Navigator.of(context).pop();
         },
         onButton2Pressed: () async {
-          await db.update(id: taskId, picture: picture);
+          await db.update(id: taskId, location: location, picture: picture);
 
-          //Navigator.of(context).pop();
+          Navigator.popUntil(context, (route) {
+            return route.settings.name == '/';
+          });
 
           // Handle Button 2 Pressed
           //Navigator.pushReplacementNamed(context, '/goals');

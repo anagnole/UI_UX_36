@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:snapgoals_v2/service/database/snapgoals_db.dart';
 import 'package:snapgoals_v2/service/models/key_word.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/Failure_Popup.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/success_Popup.dart';
+import 'package:location/location.dart' as locPackage;
 
 class CameraScreen extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -107,8 +109,7 @@ class _CameraViewPageState extends State<CameraScreen> {
               ),
               Positioned(
                 bottom: screenHeight * 0.03, // 10% from the bottom
-                left: screenWidth / 2 -
-                    48, // Adjust the icon size (24.0) as needed
+                left: screenWidth / 2 - 48,
                 child: IconButton(
                   iconSize: 24.0,
                   icon: Image.asset('assets/images/shutter_button.png'),
@@ -134,6 +135,35 @@ class _CameraViewPageState extends State<CameraScreen> {
   Future<void> _takePictureAndSave(
       BuildContext context, int taskId, SnapgoalsDB db) async {
     try {
+      locPackage.Location location = locPackage.Location();
+
+      bool _serviceEnabled;
+      locPackage.PermissionStatus _permissionGranted;
+      locPackage.LocationData _locationData;
+
+      _serviceEnabled = await location.serviceEnabled();
+      if (!_serviceEnabled) {
+        _serviceEnabled = await location.requestService();
+        if (!_serviceEnabled) {
+          return;
+        }
+      }
+
+      _permissionGranted = await location.hasPermission();
+      if (_permissionGranted == locPackage.PermissionStatus.denied) {
+        _permissionGranted = await location.requestPermission();
+        if (_permissionGranted != locPackage.PermissionStatus.granted) {
+          return;
+        }
+      }
+
+      _locationData = await location.getLocation();
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          _locationData.latitude!, _locationData.longitude!);
+      Placemark place = placemarks[0];
+      print(place.locality);
+
+      print(_locationData);
       final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
 
       XFile? image = await _controller.takePicture();
@@ -161,11 +191,9 @@ class _CameraViewPageState extends State<CameraScreen> {
         keyWordsText.add(key.word);
       }
       for (String key in keyWordsText) {
-        keyWordsText.add(key);
+        print(key);
       }
-      keyWords.map((e) => {});
-      print(keyWords.length + 1);
-      keyWordsText.map((e) => print(e));
+
       // Get the project's directory
       final Directory appDirectory = await getApplicationDocumentsDirectory();
       final String appPath = appDirectory.path;
@@ -176,35 +204,22 @@ class _CameraViewPageState extends State<CameraScreen> {
           '$appPath/image_${DateTime.now().millisecondsSinceEpoch}.png';
       await newImage.copy(newImagePath);
 
-      // final ImageLabeler imageLabeler = GoogleMlKit.vision.imageLabeler();
-      // //late InputImage inputImage;
-      // final inputImage2 = InputImage.fromFilePath(newImagePath);
-      // List<String> labelsText = [];
-      // final List<ImageLabel> labels =
-      //     await imageLabeler.processImage(inputImage2);
-      // for (ImageLabel label in labels) {
-      //   labelsText.add(label.label);
-      //   final String text = label.label;
-      //   print('wihdfwe');
-      //   print(text);
-      //   // final int index = label.index;
-      //   // final double confidence = label.confidence;
-      // }
-
       Set<String> keyWordsSet = Set.from(keyWordsText);
       Set<String> labelsSet = Set.from(labelsText2);
 
       Set<String> commonElements = keyWordsSet.intersection(labelsSet);
 
+      place.locality ?? '';
+
       if (commonElements.isNotEmpty) {
-        db.update(id: taskId, picture: imageBytes);
-        //await showSuccessPopup(context)
+        db.update(id: taskId, location: place.locality!, picture: imageBytes);
+        await showSuccessPopup(context);
+        Navigator.pop(context);
         //.then((value) => Navigator.of(context).pop());
         print('Common elements: $commonElements');
       } else {
-        //showFailurePopup(context, db, taskId, imageBytes);
-        //await showFailurePopup(context, db, taskId, imageBytes)
-        // .then((value) => true ? {} : {});
+        showFailurePopup(context, db, taskId, imageBytes, place.locality!);
+
         print('No common elements found.');
       }
       imageLabeler.close();

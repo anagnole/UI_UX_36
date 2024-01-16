@@ -19,7 +19,10 @@ class GoalsPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add, color: Colors.white,),
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
         backgroundColor: const Color(0xFF3B8BB1),
         onPressed: () {
           Navigator.of(context).push(modalAnimation(
@@ -27,6 +30,7 @@ class GoalsPage extends StatelessWidget {
               await appState.snapgoalsDB.createTask(
                 title: title,
                 category: category,
+                location: '',
                 picture: picture,
                 keyIds: keyIds,
               );

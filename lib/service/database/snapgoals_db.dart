@@ -21,6 +21,7 @@ class SnapgoalsDB {
       "title" TEXT NOT NULL,
       "category" TEXT NOT NULL,
       "picture" BLOB, 
+      "location" TEXT NOT NULL,
       "completed" INTEGER NOT NULL,
       "created_at" INTEGER NOT NULL DEFAULT (cast(strftime('%s','now') as int)),
       "updated_at" INTEGER,
@@ -117,12 +118,20 @@ class SnapgoalsDB {
     required String title,
     required String category,
     required Uint8List picture,
+    required String location,
     required List<int> keyIds,
   }) async {
     final database = await DatabaseService().database;
     int taskId = await database.rawInsert(
-      '''INSERT INTO $tableName (title, category, picture, completed, created_at) VALUES (?,?,?,?,?)''',
-      [title, category, picture, 0, DateTime.now().millisecondsSinceEpoch],
+      '''INSERT INTO $tableName (title, category, picture, location, completed, created_at) VALUES (?,?,?,?,?,?)''',
+      [
+        title,
+        category,
+        picture,
+        location,
+        0,
+        DateTime.now().millisecondsSinceEpoch
+      ],
     );
     for (int keyId in keyIds) {
       await database.rawInsert(
@@ -216,11 +225,15 @@ class SnapgoalsDB {
     return Task.fromSqfliteDatabase(task.first);
   }
 
-  Future<int> update({required int id, required Uint8List picture}) async {
+  Future<int> update(
+      {required int id,
+      required String location,
+      required Uint8List picture}) async {
     final database = await DatabaseService().database;
     return await database.update(
       tableName,
       {
+        'location': location,
         'picture': picture,
         'completed': 1,
         'updated_at': DateTime.now().microsecondsSinceEpoch,

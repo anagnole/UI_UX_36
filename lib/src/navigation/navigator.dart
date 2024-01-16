@@ -168,7 +168,7 @@ class _MyNavigatorState extends State<MyNavigator> {
               label: '',
             ),
             const NavigationDestination(
-              icon: Opacity(opacity: 0.0), // Invisible placeholder
+              icon: Opacity(opacity: 0.0),
               label: '',
             ),
             NavigationDestination(
