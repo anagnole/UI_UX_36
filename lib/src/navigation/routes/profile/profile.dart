@@ -52,14 +52,19 @@ class _ProfilePageState extends State<ProfilePage> {
     appState.fetchNonCompletedTasks();
     appState.fetchCompletedTasks();
     appState.totalTasksByCategory();
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
 
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Expanded(
         child: SingleChildScrollView(
           child: Padding(
-            padding:
-                const EdgeInsets.only(bottom: 30, right: 25, left: 25, top: 30),
+            padding: EdgeInsets.only(
+                bottom: screenHeight * 0.1,
+                right: screenWidth * 0.05,
+                left: screenWidth * 0.05,
+                top: screenHeight * 0.1),
             child: Container(
                 padding: const EdgeInsets.all(48.0),
                 decoration: BoxDecoration(

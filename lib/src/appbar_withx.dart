@@ -14,6 +14,7 @@ class SnapGoalsAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     const iconPaddingPercentage = 0.05;
 
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: primaryColor, // Replace with your specific color
       title: const Text(
         "SnapGoals",
