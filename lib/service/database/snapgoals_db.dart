@@ -13,7 +13,7 @@ class SnapgoalsDB {
 
   Future<void> createTable(Database database) async {
     await database.execute("DROP TABLE $tableName;");
-    await database.execute("DROP TABLE $tableKeyWords;");
+    //await database.execute("DROP TABLE $tableKeyWords;");
     // await database.rawDelete('''DELETE FROM $tableName''');
     // await database.rawDelete('''DELETE FROM $tableKeyWords''');
     await database.execute(""" CREATE TABLE IF NOT EXISTS $tableName (

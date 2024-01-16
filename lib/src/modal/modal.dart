@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:snapgoals_v2/src/appbar_withx.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
-import 'package:snapgoals_v2/src/navigation/routes/gallery/task_page.dart';
+import 'package:snapgoals_v2/src/navigation/routes/gallery/widgets/task_page.dart';
 
 class Modal extends StatefulWidget {
   final String pageName;
