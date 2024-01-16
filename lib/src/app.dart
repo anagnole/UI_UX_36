@@ -68,15 +68,6 @@ class MainApp extends StatelessWidget {
                           ),
                           child: const MyNavigator(index: 1),
                         ),
-                    '/goals': (context) => Container(
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/background.png'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: const MyNavigator(index: 2),
-                        ),
                     '/onboarding': (context) => Container(
                           decoration: const BoxDecoration(
                             image: DecorationImage(

@@ -58,9 +58,6 @@ void showFailurePopup(BuildContext context, SnapgoalsDB db, int taskId,
           Navigator.popUntil(context, (route) {
             return route.settings.name == '/';
           });
-
-          // Handle Button 2 Pressed
-          //Navigator.pushReplacementNamed(context, '/goals');
         },
       );
     },

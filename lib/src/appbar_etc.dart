@@ -96,7 +96,7 @@ class CameraAppBar extends StatelessWidget implements PreferredSizeWidget {
               // Navigate to the SecondPage when IconButton is pressed
               Navigator.pop(context);
             },
-            icon: Image.asset("assets/images/close_24px.png"),
+            icon: Image.asset(scale: 0.7, "assets/images/close_24px.png"),
           ),
         ),
       ],

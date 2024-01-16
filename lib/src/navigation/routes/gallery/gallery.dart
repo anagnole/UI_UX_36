@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:provider/provider.dart';
+import 'package:snapgoals_v2/src/navigation/routes/gallery/widgets/date.dart';
 import 'widgets/picture.dart';
 import 'package:snapgoals_v2/service/models/task.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,11 @@ class GalleryPage extends StatelessWidget {
             } else {
               //appState.snapgoalsDB.deleteAll(); //
               final tasks = (snapshot.data!).reversed;
+              if (tasks.isEmpty) {
+                return const Center(
+                  child: Text('No photos yet'),
+                );
+              }
               DateTime now = DateTime.now();
               DateTime now_date = DateTime(now.year, now.month, now.day);
               String prev = "";
@@ -50,7 +56,7 @@ class GalleryPage extends StatelessWidget {
                   }
                 }
                 if (cur != prev) {
-                  widgetList.add(DateWidget(cur));
+                  widgetList.add(DateWidget(date: cur));
                   prev = cur;
                 }
                 widgetList.add(GoalImageWidget(task: a));
@@ -137,93 +143,8 @@ class GalleryPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return final_widget_list[index];
                   });
-
-              // os edo vazo ta widgets sto list
-              // return ListView.builder(
-              //   itemCount: (widgetList.length / 2).ceil(),
-              //   itemBuilder: (context, index) {
-              //     if ((widgetList.length - 1) % 2 != 0 &&
-              //         index == ((widgetList.length - 1) / 2).ceil() - 1) {
-              //       return Column(
-              //         children: [
-              //           const SizedBox(
-              //             height: 20,
-              //           ),
-              //           Row(
-              //             children: [
-              //               SizedBox(width: screenWidth * 0.03),
-              //               Card(
-              //                 elevation: 20.0,
-              //                 child: widgetList[2 * index],
-              //               ),
-              //             ],
-              //           ),
-              //           SizedBox(
-              //             height: screenHeight * 0.15,
-              //           )
-              //         ],
-              //       );
-              //     } else {
-              //       return Column(
-              //         children: [
-              //           const SizedBox(height: 20.0),
-              //           Row(
-              //             mainAxisAlignment: MainAxisAlignment.center,
-              //             children: [
-              //               Card(
-              //                 elevation: 20.0,
-              //                 child: widgetList[2 * index],
-              //               ),
-              //               SizedBox(width: screenWidth * 0.1),
-              //               Card(
-              //                   elevation: 20,
-              //                   child: widgetList[
-              //                       (2 * index + 1) > widgetList.length - 1
-              //                           ? widgetList.length - 1
-              //                           : 2 * index + 1]),
-
-              //               //),
-              //             ],
-              //           ),
-              //           //SizedBox(height: screenHeight * 0.1),
-              //         ],
-              //       );
-              //     }
-              //   },
-              // );
             }
           }),
-    );
-  }
-}
-
-class DateWidget extends StatelessWidget {
-  final String date;
-
-  DateWidget(this.date);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.sizeOf(context).height * 0.02,
-        ),
-        Row(
-          children: [
-            SizedBox(
-              width: MediaQuery.sizeOf(context).width * 0.05,
-            ),
-            Text(
-              date,
-              style: TextStyle(fontFamily: 'Viga', fontSize: 24.0),
-            ),
-          ],
-        ),
-        Container(
-            width: MediaQuery.sizeOf(context).width,
-            child: Image(image: AssetImage("assets/images/line_2.png")))
-      ],
     );
   }
 }

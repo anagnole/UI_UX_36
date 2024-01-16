@@ -31,7 +31,7 @@ class GoalsPage extends StatelessWidget {
               final tasks = snapshot.data!;
 
               return tasks.isEmpty
-                  ? const Center(child: Text('No Goals'))
+                  ? const Center(child: Text('No Goals Yet'))
                   : Padding(
                       padding: const EdgeInsets.only(
                         left: 25.0,
