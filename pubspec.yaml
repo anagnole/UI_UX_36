@@ -24,6 +24,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   flutter_svg: ^2.0.9
   geocoding: ^2.1.1
+  audioplayers: ^0.20.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -34,6 +35,7 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/
+    - assets/sounds/
   fonts:
     - family: Lobster
       fonts:
