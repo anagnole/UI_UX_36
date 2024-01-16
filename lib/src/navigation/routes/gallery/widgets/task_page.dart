@@ -31,115 +31,118 @@ class _TaskPageState extends State<TaskPage> {
     }
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Container(
-        padding: const EdgeInsets.all(24.0),
-        child: Center(
-          child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-            //Textwithbar(text: category),
-            Column(children: [
-              Align(
-                alignment: Alignment.center,
-                child: Text(category,
-                    style: const TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Viga'),
-                    textAlign: TextAlign.left),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(24.0),
+          child: Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+              //Textwithbar(text: category),
+              Column(children: [
+                Align(
+                  alignment: Alignment.center,
+                  child: Text(category,
+                      style: const TextStyle(
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Viga'),
+                      textAlign: TextAlign.left),
+                ),
+                const SizedBox(height: 8),
+                Material(
+                  elevation: 4.0,
+                  child: Container(
+                    color: const Color.fromARGB(255, 137, 136, 136),
+                    height: 2.0,
+                  ),
+                ),
+              ]),
+              SizedBox(height: screenHeight * 0.02),
+              Container(
+                height: screenHeight * 0.35,
+                width: screenWidth * 0.60,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: scolor,
+                    width: 12.0,
+                  ),
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: widget.task?.picture != null
+                    ? Image(
+                        image: MemoryImage(widget.task!.picture),
+                        fit: BoxFit.cover)
+                    : Image.asset('assets/images/test_image.jpg',
+                        fit: BoxFit.fill),
               ),
-              const SizedBox(height: 8),
-              Material(
-                elevation: 4.0,
-                child: Container(
-                  color: const Color.fromARGB(255, 137, 136, 136),
-                  height: 2.0,
+              SizedBox(height: screenHeight * 0.02),
+              const Textwithbar(text: "Title"),
+              SizedBox(height: screenHeight * 0.01),
+              Container(
+                height: screenHeight * 0.07,
+                width: screenWidth * 0.9,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B8BB1),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(17.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0, top: 6.0),
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.02),
+              const Textwithbar(text: "Date"),
+              SizedBox(height: screenHeight * 0.01),
+              Container(
+                height: screenHeight * 0.07,
+                width: screenWidth * 0.9,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B8BB1),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(17.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0, top: 6.0),
+                  child: Text(
+                    widget.task?.updatedAt ?? 'Date not available',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: screenHeight * 0.01),
+              const Textwithbar(text: "Location"),
+              SizedBox(height: screenHeight * 0.01),
+              Container(
+                height: screenHeight * 0.07,
+                width: screenWidth * 0.9,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF3B8BB1),
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(17.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12.0, top: 6.0),
+                  child: Text(
+                    widget.task?.location ?? 'Location not available',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16.0,
+                    ),
+                  ),
                 ),
               ),
             ]),
-            SizedBox(height: screenHeight * 0.02),
-            Container(
-              height: screenHeight * 0.35,
-              width: screenWidth * 0.60,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: scolor,
-                  width: 12.0,
-                ),
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: widget.task?.picture != null
-                  ? Image(
-                      image: MemoryImage(widget.task!.picture),
-                      fit: BoxFit.cover)
-                  : Image.asset('assets/images/test_image.jpg',
-                      fit: BoxFit.fill),
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            const Textwithbar(text: "Title"),
-            SizedBox(height: screenHeight * 0.01),
-            Container(
-              height: screenHeight * 0.07,
-              width: screenWidth * 0.9,
-              decoration: BoxDecoration(
-                color: const Color(0xFF3B8BB1),
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(17.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0, top: 6.0),
-                child: Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.02),
-            const Textwithbar(text: "Date"),
-            SizedBox(height: screenHeight * 0.01),
-            Container(
-              height: screenHeight * 0.07,
-              width: screenWidth * 0.9,
-              decoration: BoxDecoration(
-                color: const Color(0xFF3B8BB1),
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(17.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0, top: 6.0),
-                child: Text(
-                  widget.task?.updatedAt ?? 'Date not available',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: screenHeight * 0.01),
-            const Textwithbar(text: "Location"),
-            SizedBox(height: screenHeight * 0.01),
-            Container(
-              height: screenHeight * 0.07,
-              width: screenWidth * 0.9,
-              decoration: BoxDecoration(
-                color: const Color(0xFF3B8BB1),
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(17.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0, top: 6.0),
-                child: Text(
-                  widget.task?.location ?? 'Location not available',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ),
-          ]),
+          ),
         ),
       ),
     );

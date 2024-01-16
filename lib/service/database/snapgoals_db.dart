@@ -12,7 +12,7 @@ class SnapgoalsDB {
   final relationship = 'relationship';
 
   Future<void> createTable(Database database) async {
-    await database.execute("DROP TABLE $tableName;");
+    //await database.execute("DROP TABLE $tableName;");
     //await database.execute("DROP TABLE $tableKeyWords;");
     // await database.rawDelete('''DELETE FROM $tableName''');
     // await database.rawDelete('''DELETE FROM $tableKeyWords''');
@@ -85,33 +85,33 @@ class SnapgoalsDB {
       'Cappucino'
     ];
 
-    // for (String word in arrayFitness) {
-    //   await database.rawInsert(
-    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-    //     [
-    //       word,
-    //       'fitness',
-    //     ],
-    //   );
-    // }
-    // for (String word in arraySocial) {
-    //   await database.rawInsert(
-    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-    //     [
-    //       word,
-    //       'social',
-    //     ],
-    //   );
-    // }
-    // for (String word in arrayStudy) {
-    //   await database.rawInsert(
-    //     '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
-    //     [
-    //       word,
-    //       'study',
-    //     ],
-    //   );
-    // }
+    for (String word in arrayFitness) {
+      await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'fitness',
+        ],
+      );
+    }
+    for (String word in arraySocial) {
+      await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'social',
+        ],
+      );
+    }
+    for (String word in arrayStudy) {
+      await database.rawInsert(
+        '''INSERT INTO $tableKeyWords (word, category) VALUES (?,?);''',
+        [
+          word,
+          'study',
+        ],
+      );
+    }
   }
 
   Future<int> createTask({

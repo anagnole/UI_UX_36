@@ -34,7 +34,6 @@ class DatabaseService {
     );
     //final SharedPreferences prefs = await SharedPreferences.getInstance();
     //await prefs.setString('name', 'George');
-    print('ooooooooo');
     //await prefs.setBool('hasCompletedOnBoarding', false);
     //await SnapgoalsDB().createTable(database);
 
@@ -44,7 +43,7 @@ class DatabaseService {
   Future<void> create(Database database, int version) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString('name', 'George');
+    await prefs.setString('name', '');
     await prefs.setBool('hasCompletedOnBoarding', false);
 
     await SnapgoalsDB().createTable(database);

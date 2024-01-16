@@ -39,7 +39,8 @@ class PieChartWidget extends StatelessWidget {
               )
             ];
             if (sums[0] + sums[1] + sums[2] == 0) {
-              return Text("you have not completed any tasks yet");
+              return const Text(
+                  "you have not completed any tasks yet \n Go to profile to pick/edit your name!");
             } else {
               var chart = charts.PieChart(
                 seriesList,
