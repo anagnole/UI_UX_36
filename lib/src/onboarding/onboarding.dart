@@ -87,7 +87,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             color: Colors.black,
                           ),
                         ))
-                    : null,
+                    : const SizedBox(height: 48),
               ),
             ),
             Expanded(

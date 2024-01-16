@@ -6,6 +6,7 @@ import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/widgets/modal_animation.dart';
 
 import 'package:snapgoals_v2/src/modal/modal.dart';
+import 'package:vibration/vibration.dart';
 
 class GoalImageWidget extends StatefulWidget {
   final Task task;
@@ -48,7 +49,7 @@ class _GoalImageWidgetState extends State<GoalImageWidget> {
     }
     return GestureDetector(
       onLongPress: () {
-        HapticFeedback.vibrate();
+        Vibration.vibrate(duration: 300);
         showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -59,17 +60,17 @@ class _GoalImageWidgetState extends State<GoalImageWidget> {
                     const Text('Are you sure you want to delete this photo?'),
                 actions: [
                   TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Cancel')),
+                  TextButton(
                       onPressed: () async {
                         await appState.snapgoalsDB.delete(task.id);
                         appState.notify();
                         Navigator.of(context).pop();
                       },
                       child: const Text('Delete')),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Cancel'))
                 ],
               ));
             });

@@ -1,8 +1,10 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:snapgoals_v2/src/app_state.dart';
 import 'package:snapgoals_v2/src/navigation/routes/camera/camera.dart';
+import 'package:vibration/vibration.dart';
 
 class TaskWidget extends StatelessWidget {
   final String title;
@@ -58,6 +60,7 @@ class TaskWidget extends StatelessWidget {
                 const Spacer(),
                 IconButton(
                   onPressed: () async {
+                    Vibration.vibrate(duration: 50);
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -69,6 +72,11 @@ class TaskWidget extends StatelessWidget {
                                 'Are you sure you want to delete this goal?'),
                             actions: [
                               TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('Cancel')),
+                              TextButton(
                                   onPressed: () async {
                                     await appState.snapgoalsDB.delete(task_id);
                                     appState.fetchTasks();
@@ -77,11 +85,6 @@ class TaskWidget extends StatelessWidget {
                                     Navigator.of(context).pop();
                                   },
                                   child: const Text('Delete')),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('Cancel'))
                             ],
                           ));
                         });
@@ -108,7 +111,7 @@ class TaskWidget extends StatelessWidget {
                 );
               }
             },
-            icon: Image.asset('assets/images/camera_icon.png'))
+            icon: SvgPicture.asset('assets/images/camera.svg'))
       ],
     );
   }

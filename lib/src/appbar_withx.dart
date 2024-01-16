@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 const primaryColor = Color(0xFF33228E);
 
@@ -40,13 +41,10 @@ class SnapGoalsAppBar2 extends StatelessWidget implements PreferredSizeWidget {
           child: IconButton(
             onPressed: () {
               Navigator.of(context).pop();
-
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => HomePage()),
-              // );
             },
-            icon: Image.asset("assets/images/close_24px.png"),
+            icon: SvgPicture.asset(
+              "assets/images/X.svg",
+            ),
           ),
         ),
       ],

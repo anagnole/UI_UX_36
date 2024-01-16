@@ -5,6 +5,7 @@ import 'package:snapgoals_v2/src/navigation/routes/gallery/gallery.dart';
 import 'package:snapgoals_v2/src/navigation/routes/goals/goals.dart';
 import 'package:snapgoals_v2/src/navigation/routes/home/home.dart';
 import 'package:snapgoals_v2/src/navigation/routes/profile/profile.dart';
+import 'package:vibration/vibration.dart';
 
 class MyNavigator extends StatefulWidget {
   final int index;
@@ -53,6 +54,8 @@ class _MyNavigatorState extends State<MyNavigator> {
   }
 
   void onDestinationSelected(int index, int current) {
+    Vibration.vibrate(duration: 50);
+
     switch (current) {
       case 0:
         switch (index) {
@@ -123,15 +126,12 @@ class _MyNavigatorState extends State<MyNavigator> {
               switch (currentPageIndex) {
                 case 0:
                   stateHandler(2, false);
-
                   break;
                 case 1:
                   stateHandler(0, false);
-
                   break;
                 case 2:
                   stateHandler(1, false);
-
                   break;
               }
             } else if (details.primaryVelocity! < 0) {
@@ -142,11 +142,9 @@ class _MyNavigatorState extends State<MyNavigator> {
                   break;
                 case 1:
                   stateHandler(2, true);
-
                   break;
                 case 2:
                   stateHandler(0, true);
-
                   break;
               }
             }
