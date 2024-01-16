@@ -124,14 +124,14 @@ class GalleryPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: screenHeight * 0.15,
-                        )
                       ],
                     ));
                   }
                 }
               }
+              final_widget_list.add(SizedBox(
+                height: screenHeight * 0.15,
+              ));
               return ListView.builder(
                   itemCount: final_widget_list.length,
                   itemBuilder: (context, index) {
