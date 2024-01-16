@@ -50,7 +50,6 @@ class MainApp extends StatelessWidget {
                 image: AssetImage('assets/images/splashScreen.png'),
                 fit: BoxFit.cover,
               )));
-              ;
             } else {
               final hasCompletedOnBoarding = snapshot.data!;
               return ChangeNotifierProvider(
